@@ -1,0 +1,152 @@
+{
+  "mongoId": "5c531caeadb08610bc6d0556",
+  "blockNumber": 97863425,
+  "twitter": "https://twitter.com/raidenetwork",
+  "states": [
+    {
+      "tokenNetworksCount": 40,
+      "usersCount": 35,
+      "timestamp": 36,
+      "blockNumber": 37,
+      "btcValue": 24,
+      "ethValue": 36
+    },
+    {
+      "tokenNetworksCount": 31,
+      "usersCount": 37,
+      "timestamp": 28,
+      "blockNumber": 28,
+      "btcValue": 22,
+      "ethValue": 40
+    },
+    {
+      "tokenNetworksCount": 26,
+      "usersCount": 27,
+      "timestamp": 29,
+      "blockNumber": 36,
+      "btcValue": 34,
+      "ethValue": 37
+    },
+    {
+      "tokenNetworksCount": 36,
+      "usersCount": 36,
+      "timestamp": 29,
+      "blockNumber": 36,
+      "btcValue": 32,
+      "ethValue": 32
+    },
+    {
+      "tokenNetworksCount": 35,
+      "usersCount": 20,
+      "timestamp": 28,
+      "blockNumber": 31,
+      "btcValue": 35,
+      "ethValue": 20
+    }
+  ],
+  "tokenNetworks": [
+    {
+      "token": null,
+      "tokenNetworkAddress": 0,
+      "timestamp": 21,
+      "channelsCount": 39,
+      "openChannels": 30,
+      "closedChannels": 38,
+      "settledChannels": 31,
+      "avgChannelDeposit": 40,
+      "totalDeposit": 26,
+      "users": 34,
+      "blockNumber": 22
+    },
+    {
+      "token": null,
+      "tokenNetworkAddress": 0,
+      "timestamp": 27,
+      "channelsCount": 33,
+      "openChannels": 24,
+      "closedChannels": 22,
+      "settledChannels": 32,
+      "avgChannelDeposit": 26,
+      "totalDeposit": 32,
+      "users": 27,
+      "blockNumber": 38
+    },
+    {
+      "token": null,
+      "tokenNetworkAddress": 0,
+      "timestamp": 39,
+      "channelsCount": 25,
+      "openChannels": 21,
+      "closedChannels": 25,
+      "settledChannels": 32,
+      "avgChannelDeposit": 35,
+      "totalDeposit": 34,
+      "users": 39,
+      "blockNumber": 21
+    },
+    {
+      "token": null,
+      "tokenNetworkAddress": 0,
+      "timestamp": 38,
+      "channelsCount": 24,
+      "openChannels": 29,
+      "closedChannels": 24,
+      "settledChannels": 34,
+      "avgChannelDeposit": 40,
+      "totalDeposit": 26,
+      "users": 38,
+      "blockNumber": 31
+    },
+    {
+      "token": null,
+      "tokenNetworkAddress": 0,
+      "timestamp": 36,
+      "channelsCount": 39,
+      "openChannels": 36,
+      "closedChannels": 21,
+      "settledChannels": 39,
+      "avgChannelDeposit": 22,
+      "totalDeposit": 36,
+      "users": 22,
+      "blockNumber": 40
+    }
+  ],
+  "endpoints": [
+    {
+      "ethAddress": 0,
+      "ipAddress": "26.29.32.29",
+      "state": "Alaska",
+      "latitude": -53.71285,
+      "longitude": 129.57969
+    },
+    {
+      "ethAddress": 0,
+      "ipAddress": "20.29.24.37",
+      "state": "New York",
+      "latitude": -81.50077,
+      "longitude": -130.186187
+    },
+    {
+      "ethAddress": 0,
+      "ipAddress": "39.34.32.30",
+      "state": "New Jersey",
+      "latitude": 41.291249,
+      "longitude": 21.239821
+    },
+    {
+      "ethAddress": 0,
+      "ipAddress": "37.25.40.37",
+      "state": "Delaware",
+      "latitude": 34.840363,
+      "longitude": 106.914811
+    },
+    {
+      "ethAddress": 0,
+      "ipAddress": "20.26.38.20",
+      "state": "Arkansas",
+      "latitude": -31.738521,
+      "longitude": -172.863765
+    }
+  ],
+  "id": "605e80fd-6f6a-c2fa-4061-6cbfe3dd2b11"
+}
