@@ -1,10 +1,10 @@
 <template>
   <b-card>
-    <div slot="header">
+    <!--<div slot="header">
       RaidenMap Location
       <div class="card-header-actions">
       </div>
-    </div>
+    </div>-->
     <gmap-map :center="center"
               :zoom="11"
               style="height: 500px">
