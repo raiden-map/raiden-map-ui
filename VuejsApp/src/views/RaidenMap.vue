@@ -31,9 +31,8 @@
       </b-card>
     </div>
     <div class="col-md-2 col-xs-12" id="no-margin">
-      <!--<twitter>
-        <a class="twitter-timeline" href="https://twitter.com/raiden_network">Tweets by realDonaldTrump</a>
-      </twitter>-->
+
+
     </div>
   </div>
 </template>
@@ -64,9 +63,10 @@
           var dataArray = [];
           var dataArrayRed = [];
           response.data.states.forEach(function (item) {
-            dataArray.push({ date: vue.convertTimestamp(item.timestamp), close: item.btcValue  });
+            dataArray.push({ date: vue.convertTimestamp(item.timestamp), close: item.btcValue });
             dataArrayRed.push({ date: vue.convertTimestamp(item.timestamp), close: item.ethValue });
           });
+
           this.data = dataArray;
           this.dataRed = dataArrayRed;
         })
