@@ -66,7 +66,7 @@
       }
     },
     created() {
-      axios.get(`/data.json`)
+      axios.get(`data.json`)
         .then(response => {
           var listMarkers = [];
           response.data.endpoints.forEach(function (item) {
