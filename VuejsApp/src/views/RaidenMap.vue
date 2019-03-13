@@ -31,9 +31,9 @@
       </b-card>
     </div>
     <div class="col-md-2 col-xs-12" id="no-margin">
-      <twitter>
+      <!--<twitter>
         <a class="twitter-timeline" href="https://twitter.com/raiden_network">Tweets by realDonaldTrump</a>
-      </twitter>
+      </twitter>-->
     </div>
   </div>
 </template>
@@ -42,9 +42,9 @@
   import * as d3 from 'd3';
   import Vue from 'vue';
   import axios from 'axios';
-  import twitter from 'vue-twitter'
+  //import twitter from 'vue-twitter'
 
-  Vue.use(twitter)
+  //Vue.use(twitter)
 
   export default {}
   let vue = new Vue({
