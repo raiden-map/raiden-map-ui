@@ -2,11 +2,7 @@
   <div class="row">
     <div class="col-md-10">
       <b-card>
-        <!--<div slot="header">
-          RaidenMap
-          <div class="card-header-actions">
-          </div>
-        </div>-->
+        
         <div id="line-chart">
           <div class="row">
             <div class="col-md-3"></div>

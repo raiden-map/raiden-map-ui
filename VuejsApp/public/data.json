@@ -112,41 +112,57 @@
     }
   ],
   "endpoints": [
-    {
-      "ethAddress": 0,
-      "ipAddress": "26.29.32.29",
-      "state": "Alaska",
-      "latitude": -53.71285,
-      "longitude": 129.57969
+   
+      {
+      "ethAddress": 2,
+      "ipAddress": "81.47.169.143",
+      "state": "Barcelona",
+      "latitude": 41.980725,
+      "longitude": 1.212882
     },
     {
-      "ethAddress": 0,
-      "ipAddress": "20.29.24.37",
-      "state": "New York",
-      "latitude": -81.50077,
-      "longitude": -130.186187
+      "ethAddress": 1,
+      "ipAddress": "149.154.157.205",
+      "state": "Milano",
+      "latitude": 45.308893,
+      "longitude": 9.202146
     },
     {
-      "ethAddress": 0,
-      "ipAddress": "39.34.32.30",
-      "state": "New Jersey",
-      "latitude": 41.291249,
-      "longitude": 21.239821
+      "ethAddress": 1,
+      "ipAddress": "86.47.126.133",
+      "state": "Ireland",
+      "latitude": 52.375600,
+      "longitude": -8.964852
     },
-    {
-      "ethAddress": 0,
-      "ipAddress": "37.25.40.37",
-      "state": "Delaware",
-      "latitude": 34.840363,
-      "longitude": 106.914811
+	    {
+      "ethAddress": 1,
+      "ipAddress": "88.247.102.214",
+      "state": "Turkey",
+      "latitude": 40.858694,
+      "longitude": 29.089600
     },
-    {
-      "ethAddress": 0,
-      "ipAddress": "20.26.38.20",
-      "state": "Arkansas",
-      "latitude": -31.738521,
-      "longitude": -172.863765
+	{
+      "ethAddress": 15,
+      "ipAddress": "109.238.208.138",
+      "state": "Czechia",
+      "latitude": 49.679003,
+      "longitude": 14.941402
+    },
+	{
+      "ethAddress": 31,
+      "ipAddress": "188.168.253.29",
+      "state": "Russia",
+      "latitude": 60.099909,
+      "longitude": 39.023429
+    },
+		{
+      "ethAddress": 1,
+      "ipAddress": "88.12.3.96",
+      "state": "Madrid",
+      "latitude": 40.416842,
+      "longitude": -3.645264
     }
+
   ],
   "id": "605e80fd-6f6a-c2fa-4061-6cbfe3dd2b11"
 }

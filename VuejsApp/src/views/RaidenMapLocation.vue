@@ -1,13 +1,9 @@
 <template>
   <b-card>
-    <!--<div slot="header">
-      RaidenMap Location
-      <div class="card-header-actions">
-      </div>
-    </div>-->
+   
     <gmap-map :center="center"
-              :zoom="11"
-              style="height: 500px">
+              :zoom="4"
+              style="height: 700px">
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <b-link :href="infoLink" target="_blank">{{infoContent}}</b-link>
       </gmap-info-window>
@@ -18,8 +14,15 @@
                    :title="m.title"
                    :clickable="true"
                    :draggable="m.draggable"
-                   :icon="{ url: ('/img/marker.svg')}"
+                   :icon="{ url: ('/img/marker.svg'),size: {width:23, height: 23, f: 'px', b: 'px'},scaledSize: {width: 23, height: 23, f: 'px', b: 'px'}}"
                    @click="toggleInfoWindow(m, index)"></gmap-marker>
+
+      <gmap-polyline v-bind:path.sync="path" v-bind:options="{ strokeColor:'#000000'}">
+      </gmap-polyline>
+      <gmap-polyline v-bind:path.sync="path1" v-bind:options="{ strokeColor:'#000000'}">
+      </gmap-polyline>
+      <gmap-polyline v-bind:path.sync="path2" v-bind:options="{ strokeColor:'#000000'}">
+      </gmap-polyline>
     </gmap-map>
     <ul v-if="errors && errors.length">
       <li v-for="error of errors">
@@ -32,6 +35,7 @@
   import * as VueGoogleMaps from 'vue2-google-maps'
   import Vue from 'vue'
   import axios from 'axios';
+
 
   Vue.use(VueGoogleMaps, {
     load: {
@@ -46,7 +50,34 @@
     name: 'google-maps',
     data() {
       return {
-        center: { lat: 41.8719, lng: 12.5674 },
+        center: { lat: 49.50917427824771, lng: 15.202471799531395 },
+        path: [
+          //{ lat: 41.980725, lng: 1.212882 },
+          //{ lat: 45.308893, lng: 9.202146 },
+          //{ lat: 52.375600, lng: -8.964852},
+          //{ lat: 40.858694, lng: 29.089600 },
+          //{ lat: 49.679003, lng: 14.941402 },
+          //{ lat: 60.099909, lng: 39.023429 },
+          //{ lat: 40.416842, lng: -3.645264 },
+           //{ lat: 41.980725, lng: 1.212882 },
+     
+
+
+          { lat: 40.416842, lng: -3.645264 },
+          { lat: 41.980725, lng: 1.212882 },
+          { lat: 45.308893, lng: 9.202146 }
+
+        ],
+        path1: [
+          { lat: 52.375600, lng: -8.964852 },
+          { lat: 45.308893, lng: 9.202146 },
+          { lat: 40.858694, lng: 29.089600 }
+        ],
+        path2: [
+          { lat: 45.308893, lng: 9.202146 },
+          { lat: 49.679003, lng: 14.941402 },
+          { lat: 60.099909, lng: 39.023429 }
+        ],
         markers: [],
         infoContent: '',
         infoLink: '',
@@ -71,8 +102,8 @@
           var listMarkers = [];
           response.data.endpoints.forEach(function (item) {
             listMarkers.push({
-              position: { lat: item.latitude, lng: item.longitude },
-              label: '',
+              position: { lat: item.latitude - 0.5, lng: item.longitude },
+              label: ' ' + item.ethAddress,
               draggable: false,
               title: item.ipAddress,
               www: 'https://www.ip-tracker.org/locator/ip-lookup.php?ip=' + item.ipAddress
