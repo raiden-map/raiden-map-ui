@@ -517,7 +517,7 @@ export default {
         {
           avatar: { url: 'img/avatars/6.jpg', status: 'danger' },
           user: { name: 'Friderik Dávid', new: true, registered: 'Jan 1, 2015' },
-          country: { name: 'Poland', flag: 'pl' },
+          country: { name: 'Poland', flag: 'rs' },
           usage: { value: 43, period: 'Jun 11, 2015 - Jul 10, 2015' },
           payment: { name: 'Amex', icon: 'fa fa-cc-amex' },
           activity: 'Last week'

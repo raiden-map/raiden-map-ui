@@ -1,4 +1,2 @@
 C:\Projects\VuejsApp\VuejsApp\obj\Debug\VuejsApp.njsproj.CoreCompileInputs.cache
 C:\Projects\VuejsApp\VuejsApp\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\dsimoni\Documents\visual studio 2017\Projects\VuejsApp\VuejsApp\obj\Debug\VuejsApp.njsproj.CoreCompileInputs.cache
-C:\Users\dsimoni\Documents\visual studio 2017\Projects\VuejsApp\VuejsApp\bin\Microsoft.NodejsTools.WebRole.dll

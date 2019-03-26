@@ -1,12 +1,32 @@
 <template>
   <b-card>
-   
+    <b-table class="mb-0-table-outline" responsive="sm" hover :items="tableItems" :fields="tableFields" head-variant="light">
+
+      <i slot="flag" class="h4 mb-0" :class="flag(item.value.flag)" slot-scope="item" :title="item.value.flag" :id="item.value.flag"></i>
+      <i class="flag-icon flag-icon-pw h1" title="pw" id="pw"></i>
+      <div slot="state" slot-scope="item">
+        <div>{{item.value.name}}</div>
+        <div class="small text-muted">
+
+        </div>
+      </div>
+      <div slot="eth" slot-scope="item">
+        <div>{{item.value.name}}</div>
+        <div class="small text-muted">
+
+        </div>
+      </div>
+
+    </b-table>
+
+
     <gmap-map :center="center"
               :zoom="4"
-              style="height: 700px">
+              style="height:700px;width:1200px;position: relative;padding-top:100px;">
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <b-link :href="infoLink" target="_blank">{{infoContent}}</b-link>
       </gmap-info-window>
+
       <gmap-marker :key="index"
                    v-for="(m, index) in markers"
                    :position="m.position"
@@ -24,6 +44,9 @@
       <gmap-polyline v-bind:path.sync="path2" v-bind:options="{ strokeColor:'#000000'}">
       </gmap-polyline>
     </gmap-map>
+
+
+
     <ul v-if="errors && errors.length">
       <li v-for="error of errors">
         {{error.message}}
@@ -32,9 +55,12 @@
   </b-card>
 </template>
 <script>
+
   import * as VueGoogleMaps from 'vue2-google-maps'
   import Vue from 'vue'
   import axios from 'axios';
+
+
 
 
   Vue.use(VueGoogleMaps, {
@@ -48,20 +74,12 @@
 
   export default {
     name: 'google-maps',
+    
+
     data() {
       return {
         center: { lat: 49.50917427824771, lng: 15.202471799531395 },
         path: [
-          //{ lat: 41.980725, lng: 1.212882 },
-          //{ lat: 45.308893, lng: 9.202146 },
-          //{ lat: 52.375600, lng: -8.964852},
-          //{ lat: 40.858694, lng: 29.089600 },
-          //{ lat: 49.679003, lng: 14.941402 },
-          //{ lat: 60.099909, lng: 39.023429 },
-          //{ lat: 40.416842, lng: -3.645264 },
-           //{ lat: 41.980725, lng: 1.212882 },
-     
-
 
           { lat: 40.416842, lng: -3.645264 },
           { lat: 41.980725, lng: 1.212882 },
@@ -78,6 +96,38 @@
           { lat: 49.679003, lng: 14.941402 },
           { lat: 60.099909, lng: 39.023429 }
         ],
+        tableItems: [
+          {
+            flag: { name: 'India', flag: 'in' },
+            state: { name: 'India' },
+            eth: { name: '2' }
+          },
+          {
+            flag: { name: 'Russia', flag: 'rs' },
+            state: { name: 'Russia' },
+            eth: { name: '9' }
+          },
+          {
+            flag: { name: 'Italy', flag: 'it' },
+            state: { name: 'Italy' },
+            eth: { name: '2' }
+          }
+        ],
+        tableFields: {
+          flag: {
+            flag: 'Node Map',
+            class: 'text-right',
+          }
+          , state: {
+            label: '',
+            state: 'text-right'
+          }
+          , eth: {
+            label: '',
+            state: 'text-right'
+          }
+          },
+
         markers: [],
         infoContent: '',
         infoLink: '',
@@ -127,6 +177,21 @@
           this.infoWinOpen = true
         }
       }
+      ,
+        flag(value) {
+        return 'flag-icon flag-icon-' + value
+      }
     }
   }
+ 
 </script>
+
+<style>
+  .mb-0-table-outline {
+    max-width: 400px;
+    margin-left: 1200px;
+    float: left;
+  }
+
+
+</style>
