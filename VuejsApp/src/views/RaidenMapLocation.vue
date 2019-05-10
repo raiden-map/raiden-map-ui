@@ -1,30 +1,32 @@
 <template>
   <b-card>
-    <b-table class="mb-0-table-outline" responsive="sm" hover :items="tableItems" :fields="tableFields" head-variant="light">
-
-      <i slot="flag" class="h4 mb-0" :class="flag(item.value.flag)" slot-scope="item" :title="item.value.flag" :id="item.value.flag"></i>
-      <i class="flag-icon flag-icon-pw h1" title="pw" id="pw"></i>
-      <div slot="state" slot-scope="item">
-        <div>{{item.value.name}}</div>
-        <div class="small text-muted">
-
-        </div>
-      </div>
-      <div slot="eth" slot-scope="item">
-        <div>{{item.value.name}}</div>
-        <div class="small text-muted">
-
-        </div>
-      </div>
-
-    </b-table>
-
 
     <gmap-map :center="center"
               :zoom="4"
-              style="height:700px;width:1200px;position: relative;padding-top:100px;">
+              style="height:700px;position: relative;">
+
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <b-link :href="infoLink" target="_blank">{{infoContent}}</b-link>
+
+      </gmap-info-window>
+
+      <gmap-info-window @closeclick="window_open=false" :opened="window_open" :position="infowindow" :options="infoOptions">
+        <b-table class="mb-0-table-outline" responsive="sm" hover :items="tableItems" :fields="tableFields" head-variant="light">
+
+          <i slot="flag" class="h4 mb-0" :class="flag(item.value.flag)" slot-scope="item" :title="item.value.flag" :id="item.value.flag"></i>
+
+          <div slot="state" slot-scope="item">
+            <p>{{item.value.name}}</p>
+
+          </div>
+
+          <div slot="eth" slot-scope="item">
+
+            <p>{{item.value.name}}</p>
+
+          </div>
+
+        </b-table>
       </gmap-info-window>
 
       <gmap-marker :key="index"
@@ -35,7 +37,20 @@
                    :clickable="true"
                    :draggable="m.draggable"
                    :icon="{ url: ('/img/marker.svg'),size: {width:23, height: 23, f: 'px', b: 'px'},scaledSize: {width: 23, height: 23, f: 'px', b: 'px'}}"
-                   @click="toggleInfoWindow(m, index)"></gmap-marker>
+                   @click="toggleInfoWindow(m, index)">
+      </gmap-marker>
+
+      <gmap-marker :key="index"
+                   v-for="(m, index) in markers_table"
+                   :position="m.position"
+                   :clickable="true"
+                   :draggable="m.draggable"
+                   :icon="{ url: ('/img/table_show.svg'),size: {width:23, height: 23, f: 'px', b: 'px'},scaledSize: {width: 23, height: 23, f: 'px', b: 'px'}}"
+                   @click="toggleInfoWindow1(m, index)">
+      </gmap-marker>
+
+
+
 
       <gmap-polyline v-bind:path.sync="path" v-bind:options="{ strokeColor:'#000000'}">
       </gmap-polyline>
@@ -43,6 +58,7 @@
       </gmap-polyline>
       <gmap-polyline v-bind:path.sync="path2" v-bind:options="{ strokeColor:'#000000'}">
       </gmap-polyline>
+
     </gmap-map>
 
 
@@ -98,25 +114,26 @@
         ],
         tableItems: [
           {
-            flag: { name: 'India', flag: 'in' },
-            state: { name: 'India' },
+            flag: { name: 'Italy', flag: 'it' },
+            state: { name: 'Italy' },
+            eth: { name: '2' }
+          },
+          {
+            flag: { name: 'Ireland', flag: 'ir' },
+            state: { name: 'Ireland' },
             eth: { name: '2' }
           },
           {
             flag: { name: 'Russia', flag: 'rs' },
             state: { name: 'Russia' },
             eth: { name: '9' }
-          },
-          {
-            flag: { name: 'Italy', flag: 'it' },
-            state: { name: 'Italy' },
-            eth: { name: '2' }
           }
+         
         ],
         tableFields: {
           flag: {
-            flag: 'Node Map',
-            class: 'text-right',
+            flag: '',
+            label:'Node Map'
           }
           , state: {
             label: '',
@@ -129,14 +146,22 @@
           },
 
         markers: [],
+        markers_table: [],
+
         infoContent: '',
         infoLink: '',
         infoWindowPos: {
           lat: 0,
           lng: 0
         },
+        infowindow: {
+          lat: 50,
+          lng: 50
+        },
         infoWinOpen: false,
+        windows_open:false,
         currentMidx: null,
+        currentMidx1: null,
         infoOptions: {
           pixelOffset: {
             width: 0,
@@ -146,25 +171,54 @@
         errors: []
       }
     },
+
     created() {
       axios.get(`data.json`)
         .then(response => {
+
           var listMarkers = [];
           response.data.endpoints.forEach(function (item) {
             listMarkers.push({
-              position: { lat: item.latitude - 0.5, lng: item.longitude },
-              label: ' ' + item.ethAddress,
+              position: { lat: item.latitude-0.6, lng: item.longitude },
+              label: '' + item.ethAddress,
               draggable: false,
               title: item.ipAddress,
               www: 'https://www.ip-tracker.org/locator/ip-lookup.php?ip=' + item.ipAddress
             });
           });
           this.markers = listMarkers;
+
+
         })
         .catch(e => {
           this.errors.push(e)
         })
+
     },
+
+    mounted() {
+
+      axios.get(`data.json`)
+        .then(response => {
+
+          var Markers_table = [];
+          response.data.endpoints.forEach(function (item) {
+            Markers_table.push({
+              position: { lat: 60.099909, lng: 50.023429 },
+              draggable: false
+            });
+          });
+
+          this.markers_table = Markers_table;
+
+        })
+
+        .catch(e => {
+          this.errors.push(e)
+        })
+
+    },
+
     methods: {
       toggleInfoWindow: function (marker, idx) {
         this.infoWindowPos = marker.position
@@ -178,19 +232,33 @@
         }
       }
       ,
-        flag(value) {
+
+      toggleInfoWindow1: function (marker, idx) {
+      this.infowindow = marker.position
+
+        if (this.currentMidx1 === idx) {
+          this.windows_open = !this.windows_open
+        } else {
+          this.currentMidx1 = idx
+          this.windows_open = true
+        }
+      }
+
+      ,
+      flag(value) {
         return 'flag-icon flag-icon-' + value
       }
     }
   }
+
+
+
  
 </script>
 
 <style>
   .mb-0-table-outline {
-    max-width: 400px;
-    margin-left: 1200px;
-    float: left;
+    max-width: 800px;
   }
 
 
