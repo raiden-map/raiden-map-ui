@@ -409,8 +409,11 @@
           </b-col>
           <b-col cols="6" sm="4" md="3" xl="2">
             <i class="cui-yen icons font-2xl d-block mt-4"></i>
+
             <div>yen</div>
+
           </b-col>
+         
         </b-row>
       </b-card-body>
     </b-card>

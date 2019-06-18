@@ -1,7 +1,7 @@
 <template>
   <b-card>
     <div>
-     
+      {{test}}
     </div>
 
     <gmap-map :center="center"

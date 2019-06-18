@@ -5,6 +5,7 @@
 <script>
 export default {
   name: 'app'
+   
 }
 </script>
 
@@ -12,6 +13,8 @@ export default {
   // CoreUI Icons Set
   @import '~@coreui/icons/css/coreui-icons.min.css';
   /* Import Font Awesome Icons Set */
+  @import '~cryptocurrency-icons-font/dist/webfont/cryptocurrency-icons.css';
+
   $fa-font-path: '~font-awesome/fonts/';
   @import '~font-awesome/scss/font-awesome.scss';
   /* Import Simple Line Icons Set */

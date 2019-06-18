@@ -12,7 +12,8 @@
           <div class="avatar float-right">
             <img class="img-avatar" src="img/avatars/7.jpg" alt="admin@bootstrapmaster.com">
           </div>
-          <div>Meeting with
+          <div>
+            Meeting with
             <strong>Lucas</strong>
           </div>
           <small class="text-muted mr-3">
@@ -26,7 +27,8 @@
           <div class="avatar float-right">
             <img class="img-avatar" src="img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
           </div>
-          <div>Skype with <strong>Megan</strong>
+          <div>
+            Skype with <strong>Megan</strong>
           </div>
           <small class="text-muted mr-3"><i class="icon-calendar"></i>&nbsp;&nbsp;4 - 5pm</small>
           <small class="text-muted"><i class="icon-social-skype"></i>&nbsp;&nbsp;On-line</small>
@@ -36,7 +38,8 @@
           Tomorrow
         </b-list-group-item>
         <b-list-group-item href="#" class="list-group-item-accent-danger list-group-item-divider">
-          <div>New UI Project - <strong>deadline</strong>
+          <div>
+            New UI Project - <strong>deadline</strong>
           </div>
           <small class="text-muted mr-3"><i class="icon-calendar"></i>&nbsp;&nbsp;10 - 11pm</small>
           <small class="text-muted"><i class="icon-home"></i>&nbsp;&nbsp;creativeLabs HQ</small>
@@ -201,7 +204,7 @@
         <div class="aside-options">
           <div class="clearfix mt-3">
             <small><b>Option 3</b></small>
-            <c-switch color="success" label variant="pill" size="sm" class="float-right" disabled defaultChecked/>
+            <c-switch color="success" label variant="pill" size="sm" class="float-right" disabled defaultChecked />
           </div>
           <div>
             <small class="text-muted">Disabled option.</small>
@@ -241,11 +244,11 @@
 </template>
 
 <script>
-import { Switch as cSwitch } from '@coreui/vue'
-export default {
-  name: 'DefaultAside',
-  components: {
-    cSwitch
+  import { Switch as cSwitch } from '@coreui/vue'
+  export default {
+    name: 'DefaultAside',
+    components: {
+      cSwitch
+    }
   }
-}
 </script>

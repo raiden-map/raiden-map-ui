@@ -1,7 +1,15 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\VuejsApp",
+    "\\VuejsApp\\public",
+    "\\VuejsApp\\public\\img",
+    "\\VuejsApp\\public\\img\\brand",
+    "\\VuejsApp\\src",
+    "\\VuejsApp\\src\\containers",
+    "\\VuejsApp\\src\\router",
+    "\\VuejsApp\\src\\views"
   ],
-  "SelectedNode": "\\VuejsApp",
+  "SelectedNode": "\\VuejsApp\\tsconfig.json",
   "PreviewInSolutionExplorer": false
 }

@@ -85,6 +85,14 @@ const Invoice = () => import('@/views/apps/invoicing/Invoice')
 const Compose = () => import('@/views/apps/email/Compose')
 const Inbox = () => import('@/views/apps/email/Inbox')
 const Message = () => import('@/views/apps/email/Message')
+const navOMG = () => import('@/views/raiden/navOMG')
+const navBNB = () => import('@/views/raiden/navBNB')
+
+// Vue.prototype.graph1= true ;
+// Vue.prototype.graph2 = false;
+Vue.prototype.$eventHub = new Vue();
+Vue.prototype.a = true;
+Vue.prototype.b = false;
 
 Vue.use(Router)
 
@@ -105,9 +113,19 @@ export default new Router({
           component: Dashboard
         },
         {
+          path: 'nav-OMG',
+          name: 'navOMG',
+          component: navOMG
+        },
+        {
           path: 'raiden-map',
           name: 'RaidenMap',
           component: RaidenMap
+        },
+        {
+          path: 'nav-BNB',
+          name: 'navBNB',
+          component: navBNB
         },
         {
           path: 'raiden-map-location',

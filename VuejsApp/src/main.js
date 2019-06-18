@@ -6,11 +6,18 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router/index'
+import Cryptoicon from 'vue-cryptoicon'
+import icon from 'vue-cryptoicon/src/icons'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
 
 // todo
 // cssVars()
 
 Vue.use(BootstrapVue)
+Cryptoicon.add(icon)
+Vue.use(Cryptoicon)
 
 /* eslint-disable no-new */
 new Vue({

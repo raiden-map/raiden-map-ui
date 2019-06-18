@@ -215,7 +215,8 @@
             <i class="icon-screen-tablet icons font-2xl d-block mt-4"></i>icon-screen-tablet
           </b-col>
 
-          <b-col> cols="6" sm="4" md="3">
+          <b-col>
+            cols="6" sm="4" md="3">
             <i class="icon-magic-wand icons font-2xl d-block mt-4"></i>icon-magic-wand
           </b-col>
 
@@ -737,6 +738,12 @@
 
           <b-col cols="6" sm="4" md="3">
             <i class="icon-social-dropbox icons font-2xl d-block mt-4"></i>icon-social-dropbox
+          </b-col>
+          <b-col cols="6" sm="4" md="3" xl="2">
+            <cryptoicon symbol="btc" size="24" color="blue" />
+            <!--<cryptoicon class="cui-btc icons font-2xl d-block mt-4"></cryptoicon>-->
+            <div>btc</div>
+
           </b-col>
         </b-row><!--/.row-->
       </b-card-body>

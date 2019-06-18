@@ -109,6 +109,19 @@
       "totalDeposit": 36,
       "users": 22,
       "blockNumber": 40
+    },
+    {
+      "token": null,
+      "tokenNetworkAddress": 0,
+      "timestamp": 36,
+      "channelsCount": 39,
+      "openChannels": 36,
+      "closedChannels": 21,
+      "settledChannels": 39,
+      "avgChannelDeposit": 22,
+      "totalDeposit": 36,
+      "users": 22,
+      "blockNumber": 40
     }
   ],
   "endpoints": [
@@ -118,49 +131,56 @@
       "ipAddress": "81.47.169.143",
       "state": "Barcelona",
       "latitude": 41.980725,
-      "longitude": 1.212882
+      "longitude": 1.212882,
+      "flagid":"es"
     },
     {
       "ethAddress": 1,
       "ipAddress": "149.154.157.205",
       "state": "Milano",
       "latitude": 45.308893,
-      "longitude": 9.202146
+      "longitude": 9.202146,
+      "flagid":"it"
     },
     {
       "ethAddress": 1,
       "ipAddress": "86.47.126.133",
       "state": "Ireland",
       "latitude": 52.375600,
-      "longitude": -8.964852
+      "longitude": -8.964852,
+      "flagid":"ir"
     },
 	    {
       "ethAddress": 1,
       "ipAddress": "88.247.102.214",
       "state": "Turkey",
       "latitude": 40.858694,
-      "longitude": 29.089600
+      "longitude": 29.089600,
+      "flagid":"tr"
     },
 	{
       "ethAddress": 15,
       "ipAddress": "109.238.208.138",
       "state": "Czechia",
       "latitude": 49.679003,
-      "longitude": 14.941402
+      "longitude": 14.941402,
+      "flagid":"it"
     },
 	{
       "ethAddress": 31,
       "ipAddress": "188.168.253.29",
       "state": "Russia",
       "latitude": 60.099909,
-      "longitude": 39.023429
+      "longitude": 39.023429,
+      "flagid":"rs"
     },
 		{
       "ethAddress": 1,
       "ipAddress": "88.12.3.96",
       "state": "Madrid",
       "latitude": 40.416842,
-      "longitude": -3.645264
+      "longitude": -3.645264,
+      "flagid":"it"
     }
 
   ],
