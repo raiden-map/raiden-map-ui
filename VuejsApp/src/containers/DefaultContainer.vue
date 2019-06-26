@@ -11,7 +11,7 @@
           <b-row row class="navbar-brand-full">
             <div class="b" align="left">
               &nbsp;&nbsp;&nbsp;
-              <img src="../../public/img/raiden-map logo.png" width="25" height="25" alt="CoreUI Logo">
+              <img src="../../public/img/raiden-map logo.png" width="25" height="25" alt="Token Logo">
               &nbsp;
             </div>
             <div class="a" align="right">
@@ -42,7 +42,7 @@
       </AppSidebar>
       <main class="main">
         <div class="align-content-xl-center  bg-white">
-          <router-view></router-view>
+          <router-view ></router-view>
         </div>
       </main>
       <AppAside fixed>
@@ -50,6 +50,7 @@
         <DefaultAside />
       </AppAside>
     </div>
+   
     <!--<TheFooter>-->
   </div>
 </template>
@@ -82,7 +83,11 @@
     },
     data() {
       return {
-        nav: []
+        nav: [],
+        a:false,
+         dangerModal: false,
+         tokenkey:''
+        
       }
     },
     computed: {
@@ -96,18 +101,38 @@
     methods: {
       navData() {
         this.nav = nav.items;
-        axios.get('data.json').then(response => {
-          this.nav[0].name = response.data.endpoints[0].ethAddress;
-        });
+        // axios.get('data.json').then(response => {
+        //   this.nav[0].name = response.data.endpoints[0].ethAddress;
+        // });
 
       },
     
       TokenSearch(){
-        localStorage.setItem('token',this.tokenkey );
-         window.location.reload()
         
+        var haskey=false
+        axios.get('TokenNetworkDelta.json').then(resp =>{
+          resp.data.TOKEN_NETWORK_DELTA.forEach(element => {
+            if(element.key==this.tokenkey){
+              this.haskey=true
+            }
+          });
+            if(this.haskey){
+               localStorage.setItem('token',this.tokenkey );
+               window.location.reload()
+            }
+          
+          else{
+             this.tokenkey=""
+             localStorage.removeItem('token');
+                this.$swal({
+                 type: 'error',
+                 title: 'This key was not found!',
+                 text: ' Please insert the correct key.'
+                 })
+          }
+           
+          })
       }
-
     },
 
     created: function () {

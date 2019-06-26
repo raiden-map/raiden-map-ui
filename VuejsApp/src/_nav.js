@@ -8,13 +8,13 @@ export default {
     
     {
 
-      name: "",
-      url: "/nav-BNB",
+      name: " $3.40   -2.22%   477M  BNB",
+    
       icon: 'crypto-icon bnb'
     },
     {
       name:  ' $3.40   -2.22%   477M  ZRX',
-      url: '/____',
+    
       icon: 'crypto-icon zrx'
 
     },
@@ -26,7 +26,7 @@ export default {
     },
     {
       name: ' $3.40   -2.22%   477M  MKR',
-      url: '/______',
+      
       icon: 'crypto-icon mkr'
 
     }

@@ -87,6 +87,7 @@ const Inbox = () => import('@/views/apps/email/Inbox')
 const Message = () => import('@/views/apps/email/Message')
 const navOMG = () => import('@/views/raiden/navOMG')
 const navBNB = () => import('@/views/raiden/navBNB')
+const TokenProfile = () => import('@/views/TokenProfile')
 
 // Vue.prototype.graph1= true ;
 // Vue.prototype.graph2 = false;
@@ -126,6 +127,11 @@ export default new Router({
           path: 'nav-BNB',
           name: 'navBNB',
           component: navBNB
+        },
+        {
+          path: 'tokenprofile',
+          name: 'TokenProfile',
+          component: TokenProfile
         },
         {
           path: 'raiden-map-location',

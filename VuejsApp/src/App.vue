@@ -1,5 +1,10 @@
 <template>
-  <router-view></router-view>
+  <div>
+    <router-view></router-view>
+  <div id="app">
+    <div class="app__loading-spinner"></div>
+</div>
+    </div>
 </template>
 
 <script>

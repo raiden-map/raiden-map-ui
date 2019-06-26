@@ -9,7 +9,9 @@ import router from './router/index'
 import Cryptoicon from 'vue-cryptoicon'
 import icon from 'vue-cryptoicon/src/icons'
 import Vuex from 'vuex'
-
+ import VueSweetalert2 from '../node_modules/vue-sweetalert2';
+ 
+ Vue.use(VueSweetalert2);
 Vue.use(Vuex)
 
 // todo

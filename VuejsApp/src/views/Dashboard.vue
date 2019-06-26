@@ -9,15 +9,12 @@
         <div class="col-7">
           <div class="row">
             <div class="col-sm ">BTC Value <p class="text-secondary"> {{ btcValue }} </p></div>
-            <div class="col-sm">ETH Value <p class="text-secondary">123</p></div>
-            <div class="col-sm">Users<p class="text-danger">-2.20%</p></div>
-            <div class="col-sm">Tokens<p class="text-secondary">1523M</p></div>
+            <div class="col-sm">ETH Value <p class="text-secondary">{{ ethValue }}</p></div>
+            <div class="col-sm">Users<p class="text-secondary">{{ users }}</p></div>
+            <div class="col-sm">Tokens<p class="text-secondary">{{ tokens }}</p></div>
           </div>
         </div>
         <div class="col">
-          <!-- <a class="btn-dark" href="#" @click="change"  v-if="b"><i class="icon-globe"></i> Go To Map</a>
-          <a class="btn-dark" href="#" @click="change2" v-if="a" ><i class="cui-dashboard"></i> Go To Dashboard</a> -->
-          
            <button @click="change" class="bg-dark h15" v-if="b" align="right">
             <i class="icon-globe icons font-xl"></i>
             Go To Map
@@ -32,37 +29,42 @@
     </div>
 
     <div class="card-body">
-      <NetworkMapLocation v-if="a" />
-      <NetworkMap v-if="b" />
+      <RaidenMapLocation v-if="a" />
+      <RaidenMap v-if="b" />
     </div>
   </div>
 </template>
 <script>
-  import NetworkMap from './NetworkMap'
-  import NetworkMapLocation from './NetworkMapLocation'
+  import RaidenMap from './RaidenMap'
+  import RaidenMapLocation from './RaidenMapLocation'
   import axios from 'axios'
 
   export default {
     name: 'Dashboard',
-    components: { NetworkMapLocation, NetworkMap },
+    components: { RaidenMapLocation, RaidenMap },
     data() {
       return {
         a: false,
         b: true,
-        btcValue: ''
+        btcValue:'',
+        ethValue:'',
+        users:'',
+        tokens:''
       }
     },
     created(){
-       axios.get(`RaidenSnapshot.json`)
-        .then(response => {
-         this.btcValue=response.data.states[0].btcValue;
-
-
+       var key = localStorage.getItem('token');
+      axios.get('RaidenDelta.json')
+        .then(resp => {
+          resp.data.RAIDEN_DELTA.forEach(element => {
+            if (element.key == key) {
+              this.btcValue = element.datakey.tokenNetworksChanges[key].token.valueBtc
+              this.ethValue = element.datakey.tokenNetworksChanges[key].token.valueEth
+              this.users = element.datakey.userCount
+              this.tokens = element.datakey.tokenNetworksCount
+            }
+          });
         })
-         .catch(e => {
-          this.errors.push(e)
-        })
-
     },
 
     methods: {

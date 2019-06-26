@@ -4,10 +4,12 @@
       <b-container>
         <b-row>
           <b-col>
-            <div class="card mb-2">
-              <b-card style="height: 18rem;">
-                
+            <div class="card mb-2" >
+              <b-card style="height: 20rem;" >
+               
               </b-card>
+              
+             
             </div>
           </b-col>
         </b-row>
@@ -17,9 +19,10 @@
           <b-col>
             <div class="card mb-2">
               <b-card style="height: 20rem;">
-               <RaidenNetworkChart    @clicked="onClickChild" v-if="a" style="height: 20rem;"  />
-               <RaidenNetworkChart2    v-if="b" style="height: 16.8rem;"  />
-               <button  class="btn-primary" v-if="b" @click="goback"> <i class="cui-arrow-left icons "></i> </button>
+                <line-example @clicked="onClickChild" v-if="a" style="height: 20rem;" chartId="chart-line-01"  />
+                <OmisegoChart  v-if="b" style="height: 16.8rem;" />
+                <button  class="btn-primary" v-if="b" @click="goback"> <i class="cui-arrow-left icons "></i> </button>
+               
               </b-card>
             </div>
           </b-col>
@@ -27,44 +30,46 @@
       </b-container>
     </b-card-group>
 
-    <b-card style="width: 5rem;" class="fixed-row">
-     <b-row row class="navbar-brand-full" >
-          <Timeline >
+    <b-card style="width: 7rem;">
+      <b-row row class="navbar-brand-full" >
+        <Timeline>
          <a class="twitter-timeline"
-          href="https://twitter.com/raiden_network?lang=en"
+          href="https://twitter.com/omise_go?lang=en"
        data-width="700"
           data-height="700">
-     Tweets by raiden_network
+     Tweets by omise_go
                </a>
-         </Timeline>
+                 
+         </Timeline>	
+        	
 
        
 
       </b-row>
-        
+      
 </b-card>
   </b-card-group>
 </template>
 
 <script>
-  import RaidenNetworkChart from "./charts/RaidenNetworkChart"
-  import RaidenNetworkChart2 from "./charts/RaidenNetworkChart2"
   import LineExample from '../views/charts/LineExample'
   import { Tweet, Moment, Timeline } from 'vue-tweet-embed'
+  import OmisegoChart from '../views/charts/OmisegoChart'
 
   export default {
-    name: 'RaidenMap',
-    components: {
+      name: 'OmisegoMap',
+    
+      components: {
+      LineExample,
+      Tweet,
+      Moment,
+      Timeline,
+      OmisegoChart
 
-      LineExample,Tweet, Moment, Timeline ,
-      RaidenNetworkChart,
-       RaidenNetworkChart2
-
-    },
-     data(){
+      },
+       data(){
       return{
-       a: true, 
-       
+        a: true, 
         b: false,
         componentKey: 0
        }
@@ -80,5 +85,7 @@
         }
     }
     }
+   
+   
   
 </script>

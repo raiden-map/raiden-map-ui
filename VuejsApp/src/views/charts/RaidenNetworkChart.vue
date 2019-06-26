@@ -15,10 +15,10 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips'
       var dataset1 = [];
       var dataset2 = [];
       var key = localStorage.getItem('token');
-     axios.get('TokenNetworkDelta.json')
+     axios.get('RaidenDelta.json')
         .then(resp => {
           var grdetailsadd = [];
-          resp.data.TOKEN_NETWORK_DELTA.forEach(element => {
+          resp.data.RAIDEN_DELTA.forEach(element => {
             if (element.key == key) {
               var timestamp = element.datakey.timestamp;
               var a =new Date(timestamp * 1000);
@@ -26,9 +26,9 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips'
               grdetailsadd.push({
                 hour: hour,
                 openChannels:
-                  element.datakey.openChannels,
+                  element.datakey.tokenNetworksChanges[key].openChannels,
                 closedChannels:
-                  element.datakey.closedChannels
+                  element.datakey.tokenNetworksChanges[key].closedChannels
               });
               grdetailsadd.forEach(element => {
                 dataset1[element.hour - 2] = element.openChannels,
