@@ -9,17 +9,19 @@ import router from './router/index'
 import Cryptoicon from 'vue-cryptoicon'
 import icon from 'vue-cryptoicon/src/icons'
 import Vuex from 'vuex'
- import VueSweetalert2 from '../node_modules/vue-sweetalert2';
- 
- Vue.use(VueSweetalert2);
+import VueSweetalert2 from '../node_modules/vue-sweetalert2';
+import VueSwal from 'vue-swal'
+import underscore from 'vue-underscore';
+
+Vue.use(VueSweetalert2);
+Vue.use(VueSwal)
 Vue.use(Vuex)
-
-// todo
-// cssVars()
-
 Vue.use(BootstrapVue)
+Vue.use(underscore)
+
 Cryptoicon.add(icon)
 Vue.use(Cryptoicon)
+
 
 /* eslint-disable no-new */
 new Vue({

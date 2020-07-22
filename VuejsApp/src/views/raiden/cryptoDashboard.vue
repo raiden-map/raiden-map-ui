@@ -52,12 +52,12 @@
 </template>
 
 <script>
-  import LineExample from '../views/charts/LineExample'
+  import LineExample from '../charts/LineExample'
   import { Tweet, Moment, Timeline } from 'vue-tweet-embed'
-  import OmisegoChart from '../views/charts/OmisegoChart'
+  import OmisegoChart from '../charts/OmisegoChart'
 
   export default {
-      name: 'OmisegoMap',
+      name: 'cryptoDashboard',
     
       components: {
       LineExample,

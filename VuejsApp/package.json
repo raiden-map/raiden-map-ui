@@ -58,11 +58,13 @@
     "vue-router": "^3.0.1",
     "vue-select": "2.4.0",
     "vue-simple-calendar": "^3.0.2",
+    "vue-swal": "^1.0.0",
     "vue-sweetalert2": "^2.0.5",
     "vue-tables-2": "^1.4.70",
     "vue-text-mask": "^6.1.2",
     "vue-tweet-embed": "^2.2.1",
     "vue-twitter": "^0.1.0",
+    "vue-underscore": "^0.1.4",
     "vue2-google-maps": "^0.10.2",
     "vuelidate": "^0.7.4"
   },

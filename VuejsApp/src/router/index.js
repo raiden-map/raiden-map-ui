@@ -10,6 +10,21 @@ const Dashboard = () => import('@/views/Dashboard')
 const RaidenMap = () => import('@/views/RaidenMap')
 const RaidenMapLocation = () => import('@/views/RaidenMapLocation')
 
+const cryptoDetails = () => import('@/views/raiden/cryptoDetails')
+// const navBNB = () => import('@/views/raiden/navBNB')
+// const navZRX = () => import('@/views/raiden/navZRX')
+// const navMKR = () => import('@/views/raiden/navMKR')
+
+
+
+
+
+
+
+
+
+
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -85,8 +100,6 @@ const Invoice = () => import('@/views/apps/invoicing/Invoice')
 const Compose = () => import('@/views/apps/email/Compose')
 const Inbox = () => import('@/views/apps/email/Inbox')
 const Message = () => import('@/views/apps/email/Message')
-const navOMG = () => import('@/views/raiden/navOMG')
-const navBNB = () => import('@/views/raiden/navBNB')
 const TokenProfile = () => import('@/views/TokenProfile')
 
 // Vue.prototype.graph1= true ;
@@ -114,19 +127,14 @@ export default new Router({
           component: Dashboard
         },
         {
-          path: 'nav-OMG',
-          name: 'navOMG',
-          component: navOMG
+          path: 'cryptoDetails',
+          name: 'Crypto Details',
+          component: cryptoDetails
         },
         {
           path: 'raiden-map',
           name: 'RaidenMap',
           component: RaidenMap
-        },
-        {
-          path: 'nav-BNB',
-          name: 'navBNB',
-          component: navBNB
         },
         {
           path: 'tokenprofile',

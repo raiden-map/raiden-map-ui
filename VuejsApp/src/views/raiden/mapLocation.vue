@@ -1,18 +1,16 @@
 <template>
-  <b-card>
-    <div></div>
-
-    <gmap-map :center="center" :zoom="4" style="height:700px;position: relative;">
-      <gmap-info-window
+    <gmap-map :center="center" :zoom="4" style="height:630px;">
+      
+      <!-- <gmap-info-window
         :options="infoOptions"
         :position="infoWindowPos"
         :opened="infoWinOpen"
         @closeclick="infoWinOpen=false"
       >
         <b-link :href="infoLink" target="_blank">{{infoContent}}</b-link>
-      </gmap-info-window>
+      </gmap-info-window> -->
 
-      <gmap-info-window
+      <!-- <gmap-info-window
         @closeclick="window_open=false"
         :opened="window_open"
         :position="infowindow"
@@ -43,9 +41,9 @@
             <p>{{item.value.name}}</p>
           </div>
         </b-table>
-      </gmap-info-window>
+      </gmap-info-window> -->
 
-      <gmap-marker
+      <!-- <gmap-marker
         :key="index"
         v-for="(m, index) in markers"
         :position="m.position"
@@ -55,9 +53,9 @@
         :draggable="m.draggable"
         :icon="{ url: ('/img/marker.svg'),size: {width:23, height: 23, f: 'px', b: 'px'},scaledSize: {width: 23, height: 23, f: 'px', b: 'px'}}"
         @click="toggleInfoWindow(m, index)"
-      ></gmap-marker>
+      ></gmap-marker> -->
 
-      <gmap-marker
+      <!-- <gmap-marker
         :key="index"
         v-for="(m, index) in markers_table"
         :position="m.position"
@@ -65,19 +63,23 @@
         :draggable="m.draggable"
         :icon="{ url: ('/img/table_show.svg'),size: {width:23, height: 23, f: 'px', b: 'px'},scaledSize: {width: 23, height: 23, f: 'px', b: 'px'}}"
         @click="toggleInfoWindow1(m, index)"
-      ></gmap-marker>
+      ></gmap-marker> -->
 
-      <gmap-polyline v-bind:path.sync="path" v-bind:options="{ strokeColor:'#000000'}"></gmap-polyline>
+      <!-- <gmap-polyline v-bind:path.sync="path" v-bind:options="{ strokeColor:'#000000'}"></gmap-polyline> -->
+
       <!-- <gmap-polyline v-bind:path.sync="path1" v-bind:options="{ strokeColor:'#000000'}">
       </gmap-polyline>
       <gmap-polyline v-bind:path.sync="path2" v-bind:options="{ strokeColor:'#000000'}">
       </gmap-polyline>-->
+
     </gmap-map>
 
-    <ul v-if="errors && errors.length">
-      <li v-for="error of errors">{{error.message}}</li>
-    </ul>
-  </b-card>
+    <!-- <ul v-if="errors && errors.length">
+      <ul v-for="(error, index) in errors" v-bind:key="index">
+        <li>{{error.message}}</li>
+      </ul>
+    </ul> -->
+
 </template>
 <script>
 import * as VueGoogleMaps from "vue2-google-maps";
