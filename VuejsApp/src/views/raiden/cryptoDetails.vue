@@ -10,7 +10,9 @@
       />
     </div>
     <div class="card-body" :style="paddingCardBody">
-      <cryptoDashboard v-if="dashboardVisibility" />
+      <cryptoDashboard v-if="dashboardVisibility" 
+        :twitterName="twitterName"
+        ref="cryptoDashboardRef"/>
       <mapLocation v-if="mapVisibility" />
     </div>
   </div>
@@ -45,6 +47,7 @@ export default {
 
       cryptoName: "",
       cryptoIcon: "",
+      twitterName: "",
 
       paddingCardBody: 'padding: 20px'
     };
@@ -76,6 +79,7 @@ export default {
 
       this.cryptoName = crypto.name;
       this.cryptoIcon = require("../../../public/icon/" + crypto.icon);
+      this.twitterName = crypto.twitterName
     },
 
     tokenprofile() {
@@ -100,8 +104,9 @@ export default {
       //con $route dentro il watch riesco a intercettare il cambio pagina tramite l'id passato in get
       //in questo modo posso ricaricare i dati della pagina per ogni cryptovaluta
       this.$refs.raidenHeaderRef.reset(); 
+      this.$refs.cryptoDashboardRef.reset(); 
       this.getData(param.query.id);
-    }
+    },
   }
 };
 </script>

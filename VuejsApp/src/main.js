@@ -12,16 +12,17 @@ import Vuex from 'vuex'
 import VueSweetalert2 from '../node_modules/vue-sweetalert2';
 import VueSwal from 'vue-swal'
 import underscore from 'vue-underscore';
+import HighchartsVue from 'highcharts-vue'
+
 
 Vue.use(VueSweetalert2);
 Vue.use(VueSwal)
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
 Vue.use(underscore)
-
+Vue.use(HighchartsVue)
 Cryptoicon.add(icon)
 Vue.use(Cryptoicon)
-
 
 /* eslint-disable no-new */
 new Vue({
@@ -30,5 +31,5 @@ new Vue({
   template: '<App/>',
   components: {
     App
-  }
+  },
 })

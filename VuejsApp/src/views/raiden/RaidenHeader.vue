@@ -74,7 +74,7 @@
 import axios from "axios";
 
 export default {
-  name: "Raiden Header",
+  name: "RaidenHeader",
   components: {},
   data() {
     return {

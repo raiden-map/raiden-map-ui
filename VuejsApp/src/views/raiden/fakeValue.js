@@ -9,6 +9,7 @@ const usersData = [
     v1: '9.72',
     v2: '-1.02',
     v3: '',
+    twitterName: 'binance',
   },
   {
     _id: 1,
@@ -19,6 +20,7 @@ const usersData = [
     v1: '665.51',
     v2: '-3.57',
     v3: '',
+    twitterName: 'makerdao',
   },
   {
     _id: 2,
@@ -29,6 +31,7 @@ const usersData = [
     v1: '3.40',
     v2: '+0.17',
     v3: '',
+    twitterName: 'omise_go',
   },
   {
     _id: 3,
@@ -39,6 +42,7 @@ const usersData = [
     v1: '0.002',
     v2: '-2.99',
     v3: '',
+    twitterName: '0xproject',
   },
 
   
