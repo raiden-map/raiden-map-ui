@@ -10,10 +10,10 @@
       />
     </div>
     <div class="card-body" :style="paddingCardBody">
-      <cryptoDashboard v-if="dashboardVisibility" 
+      <cryptoDashboard v-show="dashboardVisibility" 
         :twitterName="twitterName"
         ref="cryptoDashboardRef"/>
-      <mapLocation v-if="mapVisibility" />
+      <mapLocation v-show="mapVisibility" />
     </div>
   </div>
 </template>
@@ -96,7 +96,6 @@ export default {
   },
 
   created() {
-    this.getData(this.$route.query.id);
   },
 
   watch: {
