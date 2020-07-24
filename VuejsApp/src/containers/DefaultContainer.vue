@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import cryptoData from "../views/raiden/fakeValue";
+import cryptoData from "../views/raiden/fakeToken";
 
 import Vue from "vue";
 import axios from "axios";

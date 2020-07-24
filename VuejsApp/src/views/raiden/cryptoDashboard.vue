@@ -9,7 +9,7 @@
       </b-card>
     </b-col>
 
-    <b-col class="col-3" id="twitterrr">
+    <b-col class="col-3">
       <div class="card">
         <div class="card-body" style="padding:0px;">
           <div style="height: 750px; max-height: 750px;" id="twitterTimeline">
@@ -28,11 +28,17 @@
 </template>
 
 <script>
+import nodiAperti from "./fakeNodiAperti";
+import fakeElevationData from "./fakeElevationData";
+
 import LineExample from "../charts/LineExample";
 import { Tweet, Moment, Timeline } from "vue-tweet-embed";
 import OmisegoChart from "../charts/OmisegoChart";
 
 import { Chart } from "highcharts-vue";
+
+import { _ } from "vue-underscore";
+import axios from "axios";
 
 export default {
   name: "cryptoDashboard",
@@ -50,6 +56,8 @@ export default {
       componentKey: 0,
       sourceType: "profile",
       TimeLineKey: 0,
+      openNodesItems: nodiAperti,
+      elevationData: fakeElevationData,
 
       charts: {
         options: [
@@ -106,11 +114,38 @@ export default {
             credits: {
               enabled: false,
             },
+            // plotOptions: {
+            //   areaspline: {
+            //     fillOpacity: 0.5,
+            //   },
+            // },
             plotOptions: {
-              areaspline: {
-                fillOpacity: 0.5,
-              },
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        // stops: [
+                        //     [0, highcharts.getOptions().colors[0]],
+                        //     [1, highcharts.color(highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        // ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
             },
+            
             colors: [
               "#2f7ed8", //blu
               "#0d233a", //nero
@@ -136,86 +171,59 @@ export default {
               },
             ],
           },
+
           {
             chart: {
-              type: "areaspline",
+              type: "area",
+              zoomType: "x",
+              // panning: true,
+              // panKey: "shift",
+              // scrollablePlotArea: {
+              //   minWidth: 600,
+              // },
             },
             title: {
-              text: "Titolo",
-            },
-            legend: {
-              align: "center",
-              //verticalAlign: "top",
-              //floating: true,
-              borderWidth: 1,
-              backgroundColor: "#FFFFFF",
-            },
-            xAxis: {
-              categories: [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December",
-              ],
-              title: {
-                text: "titolo asse X",
-              },
-              // plotBands: [
-              //   {
-              //     // visualize the weekend
-              //     from: 4.5,
-              //     to: 6.5,
-              //     color: "rgba(68, 170, 213, .2)"
-              //   }
-              // ]
-            },
-            yAxis: {
-              title: {
-                text: "titolo asse Y",
-              },
-            },
-            tooltip: {
-              shared: true,
-              valueSuffix: " units",
+              text: "Andamento Nodi",
             },
             credits: {
               enabled: false,
             },
-            plotOptions: {
-              areaspline: {
-                fillOpacity: 0.5,
-              },
+            xAxis: {
+              type: 'datetime'
             },
-            colors: [
-              "#2f7ed8", //blu
-              "#0d233a", //nero
-              "#8bbc21", //verde
-              "#910000", //rosso
-              "#1aadce", //celeste
-              "#492970", //viola
-              "#f28f43", //arancio
-              "#77a1e5", //violetto
-              "#c42525", //rosso
-              "#a6c96a", //verde
-            ],
+
+            yAxis: {
+              title: {
+                text: "BBB",
+              }
+            },
+
+            // tooltip: {
+            //   headerFormat: "Distance: {point.x:.1f} km<br>",
+            //   pointFormat: "{point.y} m a. s. l.",
+            //   shared: true,
+            // },
+
+            legend: {
+              enabled: false,
+            },
+
             series: [
               {
-                name: "N° Full Nodes",
-                data: [15, 3, 94, 40, 26, 8, 90, 15, 3, 94, 40, 26],
-                color: "#1aadce",
-              },
-              {
-                name: "N° Light Client",
-                data: [79, 50, 20, 85, 10, 70, 65, 79, 50, 20, 85, 10],
-                color: "#dbdbdb",
+                data: [],
+                threshold: null,
+                name: "AAA test",
+                // accessibility: {
+                //   keyboardNavigation: {
+                //     enabled: false,
+                //   },
+                // },
+                // lineColor: Highcharts.getOptions().colors[1],
+                // color: Highcharts.getOptions().colors[2],
+                //fillOpacity: 0.5,
+                // marker: {
+                //   enabled: false,
+                // },
               },
             ],
           },
@@ -235,6 +243,23 @@ export default {
       //il parametro TimeLineKey, assegnato alla :key di <TimeLine> serve per refreschare il componente ogni volta che si cambia
       //voce di menù. Senza questo i parametri passati non si aggiornano e si vedrebbero sempre i tweet dello stesso account
       this.TimeLineKey += 1;
+
+      this.getDatiGrafico();
+    },
+
+    getDatiGrafico() {
+      var dataGroup = _.groupBy(this.openNodesItems, "timeStamp");
+
+      // _.each(dataGroup, function (item, index) {
+      //   console.log(item);
+      // });
+
+      let self = this;
+      _.each(this.elevationData, function (item, index) {
+        self.charts.options[1].series[0].data.push(item);
+      });
+
+      //self.charts.options[1].series[0].data= this.elevationData;
     },
   },
 

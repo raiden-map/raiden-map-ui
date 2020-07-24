@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import cryptoData from "./fakeValue";
+import cryptoData from "./fakeToken";
 
 import cryptoDashboard from "./cryptoDashboard";
 import mapLocation from "./mapLocation";

@@ -31,7 +31,7 @@ const usersData = [
     v1: '3.40',
     v2: '+0.17',
     v3: '',
-    twitterName: 'omise_go',
+    twitterName: 'omgnetworkhq',
   },
   {
     _id: 3,
