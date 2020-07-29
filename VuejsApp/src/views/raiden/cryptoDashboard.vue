@@ -120,32 +120,32 @@ export default {
             //   },
             // },
             plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        // stops: [
-                        //     [0, highcharts.getOptions().colors[0]],
-                        //     [1, highcharts.color(highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        // ]
-                    },
-                    marker: {
-                        radius: 2
-                    },
+              area: {
+                fillColor: {
+                  linearGradient: {
+                    x1: 0,
+                    y1: 0,
+                    x2: 0,
+                    y2: 1,
+                  },
+                  // stops: [
+                  //     [0, highcharts.getOptions().colors[0]],
+                  //     [1, highcharts.color(highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                  // ]
+                },
+                marker: {
+                  radius: 2,
+                },
+                lineWidth: 1,
+                states: {
+                  hover: {
                     lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                }
+                  },
+                },
+                threshold: null,
+              },
             },
-            
+
             colors: [
               "#2f7ed8", //blu
               "#0d233a", //nero
@@ -189,13 +189,13 @@ export default {
               enabled: false,
             },
             xAxis: {
-              type: 'datetime'
+              type: "datetime",
             },
 
             yAxis: {
               title: {
                 text: "BBB",
-              }
+              },
             },
 
             // tooltip: {
@@ -248,18 +248,36 @@ export default {
     },
 
     getDatiGrafico() {
-      var dataGroup = _.groupBy(this.openNodesItems, "timeStamp");
-
-      // _.each(dataGroup, function (item, index) {
-      //   console.log(item);
-      // });
-
       let self = this;
-      _.each(this.elevationData, function (item, index) {
-        self.charts.options[1].series[0].data.push(item);
-      });
 
-      //self.charts.options[1].series[0].data= this.elevationData;
+      axios({
+        method: "get",
+        url:
+          "http://localhost:3000/api/token-network/channel-opened/" +
+          this.$tokenAddress,
+      })
+        .then(function (response) {
+          _.each(response.data, function (item, index) {
+            var data = [
+              item.blockTimestamp,
+              item.returnValues.channel_identifier,
+            ];
+
+            self.charts.options[1].series[0].data.push(data);
+          });
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
+          //console.log(response);
+        });
+
+      // var dataGroup = _.groupBy(this.openNodesItems, "timeStamp");
+
+      // let self = this;
+      // _.each(this.elevationData, function (item, index) {
+      //   self.charts.options[1].series[0].data.push(item);
+      // });
     },
   },
 

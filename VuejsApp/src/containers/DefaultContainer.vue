@@ -75,17 +75,18 @@
             <li class="nav-item" v-for="(item, index) in items" v-bind:key="index">
               <a
                 class="nav-link"
-                :href="item.url"
+                :href="'#/cryptoDetails/?id=' + item._id"
                 :class="Boolean(item._active) ? 'active' : ''"
                 v-on:click="setActive(item)"
               >
                 <div class="row" v-bind:class="{ 'pl-20': Boolean(item._active) }">
                   <div style="padding: 0px; text-align: center" class="col-2">
-                    <img :src="require('../../public/icon/' + item.icon)" width="20" />
+                    <img :src="item.imgUrl" width="20" />
                     <br />
                     <small
                       v-bind:class="{ 'font-weight-bold': Boolean(item._active) }"
-                    >{{item.shortName}}</small>
+                      style="text-transform: uppercase"
+                    >{{item.symbol}}</small>
                   </div>
                   <div
                     style="margin-top:10px"
@@ -96,12 +97,14 @@
                     style="margin-top:10px"
                     class="col-3"
                     v-bind:class="{ 'font-weight-bold': Boolean(item._active) }"
-                  >${{item.v1}}</div>
-                  <div
+                  >
+                    ${{item.price}}
+                  </div>
+                  <!-- <div
                     style="margin-top:10px"
                     class="col-3"
                     v-bind:class="{ 'font-weight-bold': Boolean(item._active), 'text-danger': item.v2 <= 0, 'text-success': item.v2 > 0 }"
-                  >{{item.v2}}%</div>
+                  >{{item.v2}}%</div>-->
                 </div>
               </a>
             </li>
@@ -131,6 +134,7 @@ import cryptoData from "../views/raiden/fakeToken";
 
 import Vue from "vue";
 import axios from "axios";
+import { _ } from "vue-underscore";
 
 import {
   Header as AppHeader,
@@ -144,13 +148,12 @@ import {
   Aside as AppAside,
   AsideToggler,
   Footer as TheFooter,
-  Breadcrumb
+  Breadcrumb,
 } from "@coreui/vue";
 
 import DefaultAside from "./DefaultAside";
 import DefaultHeaderDropdownAccnt from "./DefaultHeaderDropdownAccnt";
 import LineExample from "../views/charts/LineExample";
-import { _ } from "vue-underscore";
 
 export default {
   name: "DefaultContainer",
@@ -168,15 +171,15 @@ export default {
     SidebarToggler,
     SidebarHeader,
     SidebarNav,
-    SidebarMinimizer
+    SidebarMinimizer,
   },
   data() {
     return {
       nav: [],
-      a: false,
       dangerModal: false,
       tokenkey: "",
-      items: cryptoData
+      //items: cryptoData,
+      items: [],
     };
   },
   computed: {
@@ -185,13 +188,36 @@ export default {
     },
     list() {
       return this.$route.matched.filter(
-        route => route.name || route.meta.label
+        (route) => route.name || route.meta.label
       );
-    }
+    },
   },
   methods: {
     navData() {
-      //recuperare i dati delle cryptovalute da db
+      let self = this;
+      var dati = [];
+
+      axios({
+        method: "get",
+        url: "http://localhost:3000/api/token-network/info",
+      })
+        .then(function (response) {
+          _.each(response.data, function (item, i) {
+            //recupero il prezzo attuali
+            Promise.resolve(self.getCryptoPrice(item)).then((result) => {
+              item.price = result;
+            });
+
+            dati.push(item);
+          });
+          console.log(dati);
+          self.items = dati;
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
+        });
+
       //nbaldini
       //quello sotto è codice obsoleto?
       // axios.get('data.json').then(response => {
@@ -199,6 +225,27 @@ export default {
       // });
     },
 
+    async getCryptoPrice(item) {
+      let self = this;
+      var price = 0.0;
+
+      await axios({
+        method: "get",
+        url:
+          "https://api.coingecko.com/api/v3/coins/ethereum/contract/" +
+          item.contract +
+          "/market_chart/?vs_currency=usd&days=0",
+      })
+        .then((response) => {
+          price = response.data.prices[0][1];
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
+        });
+
+      return price.toFixed(2);
+    },
     setActive(item) {
       var result = _.findWhere(this.items, { _active: "_active" });
       if (result != undefined) this.$set(result, "_active", "");
@@ -206,12 +253,18 @@ export default {
       if (item != -1) {
         this.$set(item, "_active", "_active");
       }
+
+      //imposto i dati del token corrente dentro variabili globali così da aggiornarle ogni volta che si seleziona un nuovo token
+      Vue.prototype.$twitterName = item.twitterName;
+      Vue.prototype.$cryptoName = item.name;
+      Vue.prototype.$cryptoIcon = item.imgUrl;
+      Vue.prototype.$tokenAddress = item.tokenNetwork;
     },
 
     TokenSearch() {
       var haskey = false;
-      axios.get("TokenNetworkDelta.json").then(resp => {
-        resp.data.TOKEN_NETWORK_DELTA.forEach(element => {
+      axios.get("TokenNetworkDelta.json").then((resp) => {
+        resp.data.TOKEN_NETWORK_DELTA.forEach((element) => {
           if (element.key == this.tokenkey) {
             this.haskey = true;
           }
@@ -225,16 +278,16 @@ export default {
           this.$swal({
             type: "error",
             title: "This key was not found!",
-            text: " Please insert the correct key."
+            text: " Please insert the correct key.",
           });
         }
       });
-    }
+    },
   },
 
-  created: function() {
+  created: function () {
     this.navData();
-  }
+  },
 };
 </script>
 

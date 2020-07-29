@@ -48,6 +48,7 @@ export default {
       cryptoName: "",
       cryptoIcon: "",
       twitterName: "",
+      tokenAddress: "",
 
       paddingCardBody: 'padding: 20px'
     };
@@ -71,15 +72,16 @@ export default {
     getData(id) {      
       this.mapVisibility = false;
       this.dashboardVisibility = true;
-      
+
       this.paddingCardBody = 'padding: 20px'
 
-      var _id = parseInt(id);
-      var crypto = _.findWhere(this.items, { _id: _id });
+      //var crypto = _.findWhere(this.items, { _id: id });
 
-      this.cryptoName = crypto.name;
-      this.cryptoIcon = require("../../../public/icon/" + crypto.icon);
-      this.twitterName = crypto.twitterName
+      this.cryptoName = this.$cryptoName
+      this.cryptoIcon = this.$cryptoIcon
+      this.twitterName = this.$twitterName
+      this.tokenAddress = this.$tokenAddress
+
     },
 
     tokenprofile() {
