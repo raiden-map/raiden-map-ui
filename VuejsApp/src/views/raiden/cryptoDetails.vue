@@ -10,9 +10,11 @@
       />
     </div>
     <div class="card-body" :style="paddingCardBody">
-      <cryptoDashboard v-show="dashboardVisibility" 
+      <cryptoDashboard
+        v-show="dashboardVisibility"
         :twitterName="twitterName"
-        ref="cryptoDashboardRef"/>
+        ref="cryptoDashboardRef"
+      />
       <mapLocation v-show="mapVisibility" />
     </div>
   </div>
@@ -33,7 +35,7 @@ export default {
   components: {
     mapLocation,
     cryptoDashboard,
-    RaidenHeader
+    RaidenHeader,
   },
   data() {
     return {
@@ -50,38 +52,42 @@ export default {
       twitterName: "",
       tokenAddress: "",
 
-      paddingCardBody: 'padding: 20px'
+      paddingCardBody: "padding: 20px",
     };
   },
 
   mounted() {
-    var key = localStorage.getItem("token");
-    axios.get("TokenNetworkDelta.json").then(resp => {
-      resp.data.TOKEN_NETWORK_DELTA.forEach(element => {
-        if (element.key == key) {
-          this.price = element.datakey.token.valueBtc;
-          this.deposit = element.datakey.totalDeposit;
-          this.marketcap = element.datakey.token.marketCap;
-          this.change = element.datakey.token.priceChangeDayBtc;
-        }
-      });
-    });
+    //chiamo queste istruzioni dopo che sono stati caricati tutti i componenti della pagina
+    this.$refs.raidenHeaderRef.reset();
+    this.$refs.cryptoDashboardRef.reset();
+    this.getData(this.$route.query.id);
+
+    // var key = localStorage.getItem("token");
+    // axios.get("TokenNetworkDelta.json").then((resp) => {
+    //   resp.data.TOKEN_NETWORK_DELTA.forEach((element) => {
+    //     if (element.key == key) {
+    //       this.price = element.datakey.token.valueBtc;
+    //       this.deposit = element.datakey.totalDeposit;
+    //       this.marketcap = element.datakey.token.marketCap;
+    //       this.change = element.datakey.token.priceChangeDayBtc;
+    //     }
+    //   });
+    // });
   },
 
   methods: {
-    getData(id) {      
+    getData(id) {
       this.mapVisibility = false;
       this.dashboardVisibility = true;
 
-      this.paddingCardBody = 'padding: 20px'
+      this.paddingCardBody = "padding: 20px";
 
       //var crypto = _.findWhere(this.items, { _id: id });
 
-      this.cryptoName = this.$cryptoName
-      this.cryptoIcon = this.$cryptoIcon
-      this.twitterName = this.$twitterName
-      this.tokenAddress = this.$tokenAddress
-
+      this.cryptoName = this.$cryptoName;
+      this.cryptoIcon = this.$cryptoIcon;
+      this.twitterName = this.$twitterName;
+      this.tokenAddress = this.$tokenAddress;
     },
 
     tokenprofile() {
@@ -91,23 +97,31 @@ export default {
         this.$swal({
           type: "error",
           title: "No token key avaliable!",
-          text: " Please provide a token key to go to this page"
+          text: " Please provide a token key to go to this page",
         });
       }
-    }
+    },
   },
 
-  created() {
-  },
+  // beforeMount() {
+  //   this.getUnits();
+  // },
+
+  // mounted() {
+  //   this.$refs.raidenHeaderRef.reset();
+  //   this.$refs.cryptoDashboardRef.reset();
+  //   console.log($route);
+  //   //this.getData(param.query.id);
+  // },
 
   watch: {
-    $route: function(param) {
+    $route: function (param) {
       //con $route dentro il watch riesco a intercettare il cambio pagina tramite l'id passato in get
       //in questo modo posso ricaricare i dati della pagina per ogni cryptovaluta
-      this.$refs.raidenHeaderRef.reset(); 
-      this.$refs.cryptoDashboardRef.reset(); 
+      this.$refs.raidenHeaderRef.reset();
+      this.$refs.cryptoDashboardRef.reset();
       this.getData(param.query.id);
     },
-  }
+  },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <b-card-group row class="card-rows">
     <b-col class="col-9">
-      <b-card>
+      <b-card v-show="false">
         <highcharts :options="charts.options[0]"></highcharts>
       </b-card>
       <b-card>
@@ -174,7 +174,12 @@ export default {
 
           {
             chart: {
-              type: "area",
+              //type: "area",
+              //type: "areaspline",
+              //type: "line",
+              type: "spline",
+              //type: "scatter",
+
               zoomType: "x",
               // panning: true,
               // panKey: "shift",
@@ -182,6 +187,7 @@ export default {
               //   minWidth: 600,
               // },
             },
+
             title: {
               text: "Andamento Nodi",
             },
@@ -198,21 +204,29 @@ export default {
               },
             },
 
+            legend: {
+              align: "center",
+              //verticalAlign: "top",
+              //floating: true,
+              borderWidth: 1,
+              backgroundColor: "#FFFFFF",
+            },
+
             // tooltip: {
             //   headerFormat: "Distance: {point.x:.1f} km<br>",
             //   pointFormat: "{point.y} m a. s. l.",
             //   shared: true,
             // },
 
-            legend: {
-              enabled: false,
-            },
-
             series: [
               {
                 data: [],
                 threshold: null,
-                name: "AAA test",
+                name: "Opened Channel",
+                color: "#1aadce",
+                marker: {
+                  enabled: true,
+                },
                 // accessibility: {
                 //   keyboardNavigation: {
                 //     enabled: false,
@@ -224,6 +238,15 @@ export default {
                 // marker: {
                 //   enabled: false,
                 // },
+              },
+              {
+                data: [],
+                threshold: null,
+                name: "Closed Channel",
+                color: "#dbdbdb",
+                marker: {
+                  enabled: true,
+                },
               },
             ],
           },
@@ -249,21 +272,26 @@ export default {
 
     getDatiGrafico() {
       let self = this;
+      this.charts.options[1].series[0].data = [];
+      this.charts.options[1].series[1].data = [];
 
       axios({
         method: "get",
         url:
-          "http://localhost:3000/api/token-network/channel-opened/" +
+          "http://localhost:3000/api/token-network/channel-overview/" +
           this.$tokenAddress,
       })
         .then(function (response) {
-          _.each(response.data, function (item, index) {
-            var data = [
-              item.blockTimestamp,
-              item.returnValues.channel_identifier,
-            ];
+          _.each(response.data.openedChannel, function (item, index) {
+            var data = [item.blockTimestamp, item.opened_channels_sum];
 
             self.charts.options[1].series[0].data.push(data);
+          });
+
+          _.each(response.data.closedChannel, function (item, index) {
+            var data = [item.blockTimestamp, item.closed_channels_sum];
+
+            self.charts.options[1].series[1].data.push(data);
           });
         })
         .catch((e) => {
