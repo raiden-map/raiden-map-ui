@@ -97,9 +97,7 @@
                     style="margin-top:10px"
                     class="col-3"
                     v-bind:class="{ 'font-weight-bold': Boolean(item._active) }"
-                  >
-                    ${{item.price}}
-                  </div>
+                  >${{item.price}}</div>
                   <!-- <div
                     style="margin-top:10px"
                     class="col-3"
@@ -178,6 +176,7 @@ export default {
       nav: [],
       dangerModal: false,
       tokenkey: "",
+
       //items: cryptoData,
       items: [],
     };
@@ -203,14 +202,12 @@ export default {
       })
         .then(function (response) {
           _.each(response.data, function (item, i) {
-            //recupero il prezzo attuali
+            //recupero il prezzo dei Token utilizzando un Promise, così che i dati vengano caricati tutti nello stesso momento
             Promise.resolve(self.getCryptoPrice(item)).then((result) => {
               item.price = result;
+              dati.push(item);
             });
-
-            dati.push(item);
           });
-          console.log(dati);
           self.items = dati;
         })
         .catch((e) => {
@@ -288,6 +285,7 @@ export default {
   created: function () {
     this.navData();
   },
+
 };
 </script>
 
