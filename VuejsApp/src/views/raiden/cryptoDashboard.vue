@@ -212,11 +212,19 @@ export default {
               backgroundColor: "#FFFFFF",
             },
 
+<<<<<<< HEAD
             tooltip: {
               // headerFormat: "Distance: {point.x:.1f} km<br>",
               // pointFormat: "{point.y} m a. s. l.",
               // shared: true,
             },
+=======
+            // tooltip: {
+            //   headerFormat: "Distance: {point.x:.1f} km<br>",
+            //   pointFormat: "{point.y} m a. s. l.",
+            //   shared: true,
+            // },
+>>>>>>> master
 
             series: [
               {
