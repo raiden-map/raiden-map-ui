@@ -199,9 +199,9 @@ export default {
             },
 
             yAxis: {
-              title: {
-                text: "BBB",
-              },
+              // title: {
+              //   text: "BBB",
+              // },
             },
 
             legend: {
@@ -212,11 +212,11 @@ export default {
               backgroundColor: "#FFFFFF",
             },
 
-            // tooltip: {
-            //   headerFormat: "Distance: {point.x:.1f} km<br>",
-            //   pointFormat: "{point.y} m a. s. l.",
-            //   shared: true,
-            // },
+            tooltip: {
+              // headerFormat: "Distance: {point.x:.1f} km<br>",
+              // pointFormat: "{point.y} m a. s. l.",
+              // shared: true,
+            },
 
             series: [
               {
@@ -254,6 +254,7 @@ export default {
       },
     };
   },
+  
   props: {
     twitterName: {
       type: String,
@@ -310,6 +311,7 @@ export default {
   },
 
   watch: {},
+
 };
 </script>
 

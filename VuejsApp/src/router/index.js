@@ -5,7 +5,7 @@ import Router from 'vue-router'
 const DefaultContainer = () => import('@/containers/DefaultContainer')
 
 // Views
-const Dashboard = () => import('@/views/Dashboard')
+const Dashboard = () => import('@/views/raiden/Dashboard')
 
 const RaidenMap = () => import('@/views/RaidenMap')
 const RaidenMapLocation = () => import('@/views/RaidenMapLocation')

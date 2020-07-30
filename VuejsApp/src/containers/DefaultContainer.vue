@@ -110,7 +110,7 @@
         </nav>
 
         <SidebarFooter />
-        <SidebarMinimizer />
+        <!-- <SidebarMinimizer /> -->
       </AppSidebar>
       <main class="main">
         <div class="align-content-xl-center bg-white">

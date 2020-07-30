@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col h4 col-2">
       <div style="margin-left:15px;margin-top:15px;">
-        <img :src="cryptoIcon" width="40" />
+        <img :src="cryptoIcon" width="32" style="margin-right:10px" />
         {{cryptoName}}
       </div>
     </div>
