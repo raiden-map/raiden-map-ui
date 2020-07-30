@@ -4,6 +4,8 @@
       <RaidenHeader
         :cryptoName="'Raiden Network'"
         :cryptoIcon="''"
+        :tokenLink="tokenLink"
+        :headerFields="[]"
         ref="raidenHeaderRef"
         @showMap="mapVisibility = true, dashboardVisibility = false, paddingCardBody = 'padding: 0px'"
         @showDashboard="mapVisibility = false, dashboardVisibility = true, paddingCardBody = 'padding: 20px'"
@@ -84,10 +86,13 @@ export default {
 
       //var crypto = _.findWhere(this.items, { _id: id });
 
-      this.cryptoName = this.$cryptoName;
-      this.cryptoIcon = this.$cryptoIcon;
-      this.twitterName = this.$twitterName;
-      this.tokenAddress = this.$tokenAddress;
+      var currentToken = JSON.parse(localStorage.getItem("currentToken"));
+
+      this.cryptoName = currentToken.cryptoName;
+      this.cryptoIcon = currentToken.cryptoIcon;
+      this.twitterName = currentToken.twitterName;
+      this.tokenAddress = currentToken.tokenAddress;
+      this.tokenLink = currentToken.tokenLink;
     },
 
     tokenprofile() {

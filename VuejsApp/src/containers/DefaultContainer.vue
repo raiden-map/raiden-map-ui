@@ -171,6 +171,7 @@ export default {
     SidebarNav,
     SidebarMinimizer,
   },
+
   data() {
     return {
       nav: [],
@@ -181,6 +182,7 @@ export default {
       items: [],
     };
   },
+
   computed: {
     name() {
       return this.$route.name;
@@ -191,6 +193,17 @@ export default {
       );
     },
   },
+
+  beforeUpdate: function () {
+    let self = this;
+
+    //il codice qua sotto si attiva quando refresho la pagina selezionando la voce di menù corrispondente all'id che ho nell'url
+    var result = _.findWhere(this.items, { _id: this.$route.query.id });
+    if (result != undefined) {
+      this.setActive(result);
+    }
+  },
+
   methods: {
     navData() {
       let self = this;
@@ -208,6 +221,7 @@ export default {
               dati.push(item);
             });
           });
+
           self.items = dati;
         })
         .catch((e) => {
@@ -243,19 +257,28 @@ export default {
 
       return price.toFixed(2);
     },
+
     setActive(item) {
       var result = _.findWhere(this.items, { _active: "_active" });
       if (result != undefined) this.$set(result, "_active", "");
 
       if (item != -1) {
         this.$set(item, "_active", "_active");
-      }
+        
+        var currentItem = {
+          twitterName: item.twitterName,
+          cryptoName: item.name,
+          cryptoIcon: item.imgUrl,
+          tokenAddress: item.tokenNetwork,
+          tokenLink: item.homepage,
+          tokenContract: item.contract,
+        };
 
-      //imposto i dati del token corrente dentro variabili globali così da aggiornarle ogni volta che si seleziona un nuovo token
-      Vue.prototype.$twitterName = item.twitterName;
-      Vue.prototype.$cryptoName = item.name;
-      Vue.prototype.$cryptoIcon = item.imgUrl;
-      Vue.prototype.$tokenAddress = item.tokenNetwork;
+        localStorage.setItem("currentToken", JSON.stringify(currentItem));
+      }
+      else{
+        //valorizzare currentItem anche qui con i dati di Raiden Network?
+      }
     },
 
     TokenSearch() {
@@ -286,6 +309,7 @@ export default {
     this.navData();
   },
 
+  watch: {},
 };
 </script>
 
