@@ -2,34 +2,36 @@
   <div class="row">
     <div class="col h4 col-2">
       <div style="margin-left:15px;margin-top:15px;">
-        <img :src="cryptoIcon" width="32" style="margin-right:10px" />
-        {{cryptoName}}
+        <a :href="tokenLink" target="blank" style="text-decoration:none; color:black; ">
+          <img :src="cryptoIcon" width="32" style="margin-right:10px" />
+          {{cryptoName}}
+        </a>
       </div>
     </div>
     <div class="col-6">
       <div class="row">
-        <div class="col-sm">
+        <div class="col-sm" style="text-align:center">
           Price
-          <p class="text-secondary">{{price}}</p>
+          <p class="text-secondary">{{headerFields.price}}</p>
         </div>
-        <div class="col-sm">
-          MarketCap
-          <p class="text-secondary">{{marketcap}}</p>
+        <div class="col-sm" style="text-align:center">
+          Market Cap
+          <p class="text-secondary">{{headerFields.market_cap}}</p>
         </div>
-        <div class="col-sm">
-          Change(24h)
+        <div class="col-sm" style="text-align:center">
+          Change (24h)
           <p class="text-danger">{{change}}</p>
         </div>
-        <div class="col-sm">
+        <div class="col-sm" style="text-align:center">
+          Total Volume
+          <p class="text-secondary">{{headerFields.total_volume}}</p>
+        </div>
+        <div class="col-sm" style="text-align:center">
           Deposited
           <p class="text-secondary">{{deposit}}</p>
         </div>
-        <div class="col-sm">
-          LightClient
-          <p class="text-secondary"></p>
-        </div>
-        <div class="col-sm">
-          FullNodes
+        <div class="col-sm" style="text-align:center">
+          Users
           <p class="text-secondary"></p>
         </div>
       </div>
@@ -85,23 +87,35 @@ export default {
       marketcap: "",
       change: "",
       mapButtonVisibility: true,
-      dashboardButtonVisibility: false
+      dashboardButtonVisibility: false,
     };
   },
   props: {
     cryptoName: {
       type: String,
-      default: null
+      default: null,
     },
     cryptoIcon: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
+    tokenLink: {
+      type: String,
+      default: null,
+    },
+    headerFields: {
+      type: Array,
+      default: null,
+    },
+    headerFieldsMarket_cap: {
+      type: String,
+      default: null,
+    },
   },
   mounted() {
     var key = localStorage.getItem("token");
-    axios.get("TokenNetworkDelta.json").then(resp => {
-      resp.data.TOKEN_NETWORK_DELTA.forEach(element => {
+    axios.get("TokenNetworkDelta.json").then((resp) => {
+      resp.data.TOKEN_NETWORK_DELTA.forEach((element) => {
         if (element.key == key) {
           this.price = element.datakey.token.valueBtc;
           this.deposit = element.datakey.totalDeposit;
@@ -127,15 +141,15 @@ export default {
         this.$swal({
           type: "error",
           title: "No token key avaliable!",
-          text: " Please provide a token key to go to this page"
+          text: " Please provide a token key to go to this page",
         });
       }
     },
 
     reset() {
-      this.mapButtonVisibility = true
-      this.dashboardButtonVisibility = false
-    }
-  }
+      this.mapButtonVisibility = true;
+      this.dashboardButtonVisibility = false;
+    },
+  },
 };
 </script>

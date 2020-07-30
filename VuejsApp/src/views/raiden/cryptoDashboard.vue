@@ -1,6 +1,6 @@
 <template>
   <b-card-group row class="card-rows">
-    <b-col class="col-9">
+    <b-col :class="Boolean(twitterName) ? 'col-9' : 'col-12'">
       <b-card v-show="false">
         <highcharts :options="charts.options[0]"></highcharts>
       </b-card>
@@ -9,7 +9,7 @@
       </b-card>
     </b-col>
 
-    <b-col class="col-3">
+    <b-col class="col-3"  v-if="Boolean(twitterName)">
       <div class="card">
         <div class="card-body" style="padding:0px;">
           <div style="height: 750px; max-height: 750px;" id="twitterTimeline">
@@ -175,9 +175,9 @@ export default {
           {
             chart: {
               //type: "area",
-              //type: "areaspline",
+              type: "areaspline",
               //type: "line",
-              type: "spline",
+              //type: "spline",
               //type: "scatter",
 
               zoomType: "x",
@@ -188,8 +188,12 @@ export default {
               // },
             },
 
+            caption: {
+              text: "trascina il mouse sull'asse x per fare zoom",
+            },
+
             title: {
-              text: "Andamento Nodi",
+              text: "Channels Overview",
             },
             credits: {
               enabled: false,
@@ -199,9 +203,9 @@ export default {
             },
 
             yAxis: {
-              // title: {
-              //   text: "BBB",
-              // },
+              title: {
+                text: "channels",
+              },
             },
 
             legend: {
@@ -260,6 +264,10 @@ export default {
       type: String,
       default: null,
     },
+    tokenAddress: {
+      type: String,
+      default: null,
+    },
   },
 
   methods: {
@@ -280,7 +288,7 @@ export default {
         method: "get",
         url:
           "http://localhost:3000/api/token-network/channel-overview/" +
-          this.$tokenAddress,
+          this.tokenAddress,
       })
         .then(function (response) {
           _.each(response.data.openedChannel, function (item, index) {
@@ -310,8 +318,13 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    tokenAddress: function (param) {
+      //this.getDatiGrafico();
+    },
+  },
 
+  updated: function () {},
 };
 </script>
 

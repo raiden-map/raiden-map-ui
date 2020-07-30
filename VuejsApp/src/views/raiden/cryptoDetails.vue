@@ -4,6 +4,8 @@
       <RaidenHeader
         :cryptoName="cryptoName"
         :cryptoIcon="cryptoIcon"
+        :tokenLink="tokenLink"
+        :headerFields="headerFields"
         ref="raidenHeaderRef"
         @showMap="mapVisibility = true, dashboardVisibility = false, paddingCardBody = 'padding: 0px'"
         @showDashboard="mapVisibility = false, dashboardVisibility = true, paddingCardBody = 'padding: 20px'"
@@ -13,6 +15,7 @@
       <cryptoDashboard
         v-show="dashboardVisibility"
         :twitterName="twitterName"
+        :tokenAddress="tokenAddress"
         ref="cryptoDashboardRef"
       />
       <mapLocation v-show="mapVisibility" />
@@ -51,16 +54,22 @@ export default {
       cryptoIcon: "",
       twitterName: "",
       tokenAddress: "",
+      tokenLink: "",
+      headerFields: [],
 
       paddingCardBody: "padding: 20px",
     };
   },
 
+  beforeUpdate() {},
+
   mounted() {
     //chiamo queste istruzioni dopo che sono stati caricati tutti i componenti della pagina
-    this.$refs.raidenHeaderRef.reset();
-    this.$refs.cryptoDashboardRef.reset();
-    this.getData(this.$route.query.id);
+    //utilizzo Promise così da attendere che getData carichi tutte le variabili da passare ai componenti
+    Promise.resolve(this.getData()).then((result) => {
+      this.$refs.raidenHeaderRef.reset();
+      this.$refs.cryptoDashboardRef.reset();
+    });
 
     // var key = localStorage.getItem("token");
     // axios.get("TokenNetworkDelta.json").then((resp) => {
@@ -76,18 +85,44 @@ export default {
   },
 
   methods: {
-    getData(id) {
+    async getData() {
       this.mapVisibility = false;
       this.dashboardVisibility = true;
 
       this.paddingCardBody = "padding: 20px";
 
-      //var crypto = _.findWhere(this.items, { _id: id });
+      var currentToken = JSON.parse(localStorage.getItem("currentToken"));
 
-      this.cryptoName = this.$cryptoName;
-      this.cryptoIcon = this.$cryptoIcon;
-      this.twitterName = this.$twitterName;
-      this.tokenAddress = this.$tokenAddress;
+      this.cryptoName = currentToken.cryptoName;
+      this.cryptoIcon = currentToken.cryptoIcon;
+      this.twitterName = currentToken.twitterName;
+      this.tokenAddress = currentToken.tokenAddress;
+      this.tokenLink = currentToken.tokenLink;
+
+      let self = this;
+      var headerFields = [];
+
+      await axios({
+        method: "get",
+        url:
+          "https://api.coingecko.com/api/v3/coins/ethereum/contract/" +
+          currentToken.tokenContract +
+          "/market_chart/?vs_currency=usd&days=0",
+      })
+        .then((response) => {
+          headerFields = {
+            price: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(response.data.prices[0][1]),
+            market_cap: new Intl.NumberFormat('de-DE').format(response.data.market_caps[0][1]),
+            total_volume: new Intl.NumberFormat('de-DE').format(response.data.total_volumes[0][1]),
+          };
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
+        });
+      
+      this.headerFields = headerFields;
+      
     },
 
     tokenprofile() {
@@ -104,23 +139,23 @@ export default {
   },
 
   // beforeMount() {
-  //   this.getUnits();
   // },
 
   // mounted() {
-  //   this.$refs.raidenHeaderRef.reset();
-  //   this.$refs.cryptoDashboardRef.reset();
-  //   console.log($route);
-  //   //this.getData(param.query.id);
   // },
+
+  created: function () {},
 
   watch: {
     $route: function (param) {
       //con $route dentro il watch riesco a intercettare il cambio pagina tramite l'id passato in get
       //in questo modo posso ricaricare i dati della pagina per ogni cryptovaluta
-      this.$refs.raidenHeaderRef.reset();
-      this.$refs.cryptoDashboardRef.reset();
-      this.getData(param.query.id);
+
+      //utilizzo Promise così da attendere che getData carichi tutte le variabili da passare ai componenti
+      Promise.resolve(this.getData()).then((result) => {
+        this.$refs.raidenHeaderRef.reset();
+        this.$refs.cryptoDashboardRef.reset();
+      });
     },
   },
 };
