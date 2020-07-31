@@ -16,6 +16,7 @@
         v-show="dashboardVisibility"
         :twitterName="twitterName"
         :tokenAddress="tokenAddress"
+        :tokenContract="tokenContract"
         ref="cryptoDashboardRef"
       />
       <mapLocation v-show="mapVisibility" />
@@ -54,6 +55,7 @@ export default {
       cryptoIcon: "",
       twitterName: "",
       tokenAddress: "",
+      tokenContract: "",
       tokenLink: "",
       headerFields: [],
 
@@ -97,6 +99,7 @@ export default {
       this.cryptoIcon = currentToken.cryptoIcon;
       this.twitterName = currentToken.twitterName;
       this.tokenAddress = currentToken.tokenAddress;
+      this.tokenContract = currentToken.tokenContract;
       this.tokenLink = currentToken.tokenLink;
 
       let self = this;
@@ -106,23 +109,30 @@ export default {
         method: "get",
         url:
           "https://api.coingecko.com/api/v3/coins/ethereum/contract/" +
-          currentToken.tokenContract +
-          "/market_chart/?vs_currency=usd&days=0",
+          currentToken.tokenContract, //+ "/market_chart/?vs_currency=usd&days=0",
       })
         .then((response) => {
-          HeaderFields = {
-            price: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(response.data.prices[0][1]),
-            market_cap: new Intl.NumberFormat('de-DE').format(response.data.market_caps[0][1]),
-            total_volume: new Intl.NumberFormat('de-DE').format(response.data.total_volumes[0][1]),
-          };
+          
+          var price = response.data.market_data.current_price.usd
+          var market_cap = response.data.market_data.market_cap.usd
+          var change24 = response.data.market_data.price_change_24h
+          var change24_perc = response.data.market_data.price_change_percentage_24h
+          var total_volume = response.data.market_data.total_volume.usd
+
+            HeaderFields = {
+              price: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(price),
+              market_cap: new Intl.NumberFormat('de-DE').format(market_cap),
+              change24: change24.toFixed(3),
+              change24_perc: change24_perc.toFixed(2),
+              total_volume: new Intl.NumberFormat('de-DE').format(total_volume),
+            };
         })
         .catch((e) => {
           console.log("CATCH");
           console.log(e);
         });
-      
+
       this.headerFields = HeaderFields;
-      
     },
 
     tokenprofile() {

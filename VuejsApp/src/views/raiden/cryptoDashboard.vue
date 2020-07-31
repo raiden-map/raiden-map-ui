@@ -1,15 +1,94 @@
 <template>
   <b-card-group row class="card-rows">
-    <b-col :class="Boolean(twitterName) ? 'col-9' : 'col-12'">
-      <b-card v-show="false">
+    <b-col class="col-8">
+      <!-- <b-card v-show="false">
         <highcharts :options="charts.options[0]"></highcharts>
+      </b-card>-->
+      <b-card>
+        <highcharts :options="charts.options[0]" style="width:100%"></highcharts>
+      </b-card>
+    </b-col>
+    <b-col class="col-4">
+      <b-card class="text-center">
+        <div class="h5 m-0">Token Network Address</div>
+        <div>{{tokenAddress}}</div>
+      </b-card>
+      <b-card class="text-center">
+        <div class="h5 m-0">Contract Address</div>
+        <div>{{tokenContract}}</div>
       </b-card>
       <b-card>
-        <highcharts :options="charts.options[1]"></highcharts>
+        <b-row>
+          <b-col class="col-6">
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Registered:</span>
+              <span class="text-uppercase font-weight-bold font-xs">&nbsp;1</span>
+            </div>
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Opened Channels:</span>
+              <span class="text-uppercase font-weight-bold font-xs">&nbsp;3</span>
+            </div>
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Closed Channels:</span>
+              <span class="text-uppercase font-weight-bold font-xs">&nbsp;5</span>
+            </div>
+          </b-col>
+          <b-col class="col-6">
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Settled Channels:</span>
+              <span class="text-uppercase font-weight-bold font-xs">&nbsp;2</span>
+            </div>
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Deposit:</span>
+              <span class="text-uppercase font-weight-bold font-xs">&nbsp;4</span>
+            </div>
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Withdrah:</span>
+              <span class="text-uppercase font-weight-bold font-xs">&nbsp;6</span>
+            </div>
+          </b-col>
+        </b-row>
       </b-card>
     </b-col>
 
-    <b-col class="col-3"  v-if="Boolean(twitterName)">
+    <b-col class="col-8">
+      <b-card class="text-center">
+        <div class="text-muted text-uppercase font-weight-bold">Partecipants</div>
+
+        <table>
+          <tr>
+            <td>a</td>
+            <td>d</td>
+            <td>v</td>
+          </tr>
+        </table>
+
+        <b-row class="mt-3">
+          <b-col class="col-6">
+            <div class="text-muted text-uppercase font-weight-bold font-xs">Registered</div>
+          </b-col>
+          <b-col class="col-3">
+            <div class="text-muted text-uppercase font-weight-bold font-xs">#Channel</div>
+          </b-col>
+          <b-col class="col-3">
+            <div class="text-muted text-uppercase font-weight-bold font-xs">Id Channel</div>
+          </b-col>
+        </b-row>
+        <b-row v-for="(item, idx) in partecipants" :key="idx" class="mt-1">
+          <b-col class="col-6">
+            <div class="text-uppercase font-xs">{{item.participant}}</div>
+          </b-col>
+          <b-col class="col-3">
+            <div class="text-uppercase font-weight-bold font-xs">&nbsp;AAA</div>
+          </b-col>
+          <b-col class="col-3">
+            <div class="text-uppercase font-weight-bold font-xs">&nbsp;AAA</div>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-col>
+
+    <b-col class="col-4" v-if="Boolean(twitterName)">
       <div class="card">
         <div class="card-body" style="padding:0px;">
           <div style="height: 750px; max-height: 750px;" id="twitterTimeline">
@@ -58,120 +137,10 @@ export default {
       TimeLineKey: 0,
       openNodesItems: nodiAperti,
       elevationData: fakeElevationData,
+      partecipants: [],
 
       charts: {
         options: [
-          {
-            chart: {
-              type: "areaspline",
-            },
-            title: {
-              text: "Titolo",
-            },
-            legend: {
-              align: "center",
-              //verticalAlign: "top",
-              //floating: true,
-              borderWidth: 1,
-              backgroundColor: "#FFFFFF",
-            },
-            xAxis: {
-              categories: [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December",
-              ],
-              title: {
-                text: "titolo asse X",
-              },
-              // plotBands: [
-              //   {
-              //     // visualize the weekend
-              //     from: 4.5,
-              //     to: 6.5,
-              //     color: "rgba(68, 170, 213, .2)"
-              //   }
-              // ]
-            },
-            yAxis: {
-              title: {
-                text: "titolo asse Y",
-              },
-            },
-            tooltip: {
-              shared: true,
-              valueSuffix: " units",
-            },
-            credits: {
-              enabled: false,
-            },
-            // plotOptions: {
-            //   areaspline: {
-            //     fillOpacity: 0.5,
-            //   },
-            // },
-            plotOptions: {
-              area: {
-                fillColor: {
-                  linearGradient: {
-                    x1: 0,
-                    y1: 0,
-                    x2: 0,
-                    y2: 1,
-                  },
-                  // stops: [
-                  //     [0, highcharts.getOptions().colors[0]],
-                  //     [1, highcharts.color(highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                  // ]
-                },
-                marker: {
-                  radius: 2,
-                },
-                lineWidth: 1,
-                states: {
-                  hover: {
-                    lineWidth: 1,
-                  },
-                },
-                threshold: null,
-              },
-            },
-
-            colors: [
-              "#2f7ed8", //blu
-              "#0d233a", //nero
-              "#8bbc21", //verde
-              "#910000", //rosso
-              "#1aadce", //celeste
-              "#492970", //viola
-              "#f28f43", //arancio
-              "#77a1e5", //violetto
-              "#c42525", //rosso
-              "#a6c96a", //verde
-            ],
-            series: [
-              {
-                name: "N° Light Client",
-                data: [79, 50, 20, 85, 10, 70, 65, 79, 50, 20, 85, 10],
-                color: "#1aadce",
-              },
-              {
-                name: "N° Full Nodes",
-                data: [15, 3, 94, 40, 26, 8, 90, 15, 3, 94, 40, 26],
-                color: "#dbdbdb",
-              },
-            ],
-          },
-
           {
             chart: {
               //type: "area",
@@ -227,7 +196,7 @@ export default {
                 data: [],
                 threshold: null,
                 name: "Opened Channel",
-                color: "#1aadce",
+                color: "#2F353A",
                 marker: {
                   enabled: true,
                 },
@@ -268,6 +237,10 @@ export default {
       type: String,
       default: null,
     },
+    tokenContract: {
+      type: String,
+      default: null,
+    },
   },
 
   methods: {
@@ -277,12 +250,13 @@ export default {
       this.TimeLineKey += 1;
 
       this.getDatiGrafico();
+      this.getPartecipants();
     },
 
     getDatiGrafico() {
       let self = this;
-      this.charts.options[1].series[0].data = [];
-      this.charts.options[1].series[1].data = [];
+      this.charts.options[0].series[0].data = [];
+      this.charts.options[0].series[1].data = [];
 
       axios({
         method: "get",
@@ -294,13 +268,13 @@ export default {
           _.each(response.data.openedChannel, function (item, index) {
             var data = [item.blockTimestamp, item.opened_channels_sum];
 
-            self.charts.options[1].series[0].data.push(data);
+            self.charts.options[0].series[0].data.push(data);
           });
 
           _.each(response.data.closedChannel, function (item, index) {
             var data = [item.blockTimestamp, item.closed_channels_sum];
 
-            self.charts.options[1].series[1].data.push(data);
+            self.charts.options[0].series[1].data.push(data);
           });
         })
         .catch((e) => {
@@ -308,13 +282,27 @@ export default {
           console.log(e);
           //console.log(response);
         });
+    },
 
-      // var dataGroup = _.groupBy(this.openNodesItems, "timeStamp");
+    getPartecipants() {
+      let self = this;
 
-      // let self = this;
-      // _.each(this.elevationData, function (item, index) {
-      //   self.charts.options[1].series[0].data.push(item);
-      // });
+      axios({
+        method: "get",
+        url:
+          "http://localhost:3000/api/token-network/participant-overview/" +
+          this.tokenAddress,
+      })
+        .then(function (response) {
+          _.each(response.data, function (item, index) {
+            self.partecipants.push(item);
+          });
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
+          //console.log(response);
+        });
     },
   },
 

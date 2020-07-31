@@ -222,10 +222,10 @@ export default {
     let self = this;
 
     //il codice qua sotto si attiva quando refresho la pagina selezionando la voce di menù corrispondente all'id che ho nell'url
-    var result = _.findWhere(this.items, { _id: this.$route.query.id });
-    if (result != undefined) {
-      this.setActive(result);
-    }
+    // var result = _.findWhere(this.items, { _id: this.$route.query.id });
+    // if (result != undefined) {
+    //   this.setActive(result);
+    // }
   },
 
   methods: {
@@ -243,6 +243,10 @@ export default {
             Promise.resolve(self.getCryptoPrice(item)).then((result) => {
               item.price = result;
               dati.push(item);
+
+              //imposto l'elemento come selezionato (ha senso solo quando viene refreshata la pagina)
+              if (item._id == self.$route.query.id)
+                self.setActive(item);
             });
           });
 
@@ -252,6 +256,8 @@ export default {
           console.log("CATCH");
           console.log(e);
         });
+
+      return dati;
 
       //nbaldini
       //quello sotto è codice obsoleto?
@@ -302,34 +308,6 @@ export default {
       } else {
         //valorizzare currentItem anche qui con i dati di Raiden Network?
       }
-    },
-
-    TokenSearch() {
-      var result = _.where(this.items, { name: this.tokenkey });
-
-      this.items = result;
-
-      //nbadini - codice obsoleto?
-      // var haskey = false;
-      // axios.get("TokenNetworkDelta.json").then((resp) => {
-      //   resp.data.TOKEN_NETWORK_DELTA.forEach((element) => {
-      //     if (element.key == this.tokenkey) {
-      //       this.haskey = true;
-      //     }
-      //   });
-      //   if (this.haskey) {
-      //     localStorage.setItem("token", this.tokenkey);
-      //     window.location.reload();
-      //   } else {
-      //     this.tokenkey = "";
-      //     localStorage.removeItem("token");
-      //     this.$swal({
-      //       type: "error",
-      //       title: "This key was not found!",
-      //       text: " Please insert the correct key.",
-      //     });
-      //   }
-      // });
     },
   },
 

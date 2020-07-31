@@ -8,7 +8,7 @@
         </a>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-8">
       <div class="row">
         <div class="col-sm" style="text-align:center">
           Price
@@ -20,28 +20,35 @@
         </div>
         <div class="col-sm" style="text-align:center">
           Change (24h)
-          <p class="text-danger">{{change}}</p>
+          <p :class="headerFields.change24 < 0 ? 'text-danger' : 'text-success'">
+            <small>
+              <i :class="headerFields.change24 < 0 ? 'fa fa-level-down' : 'fa fa-level-up'"></i>
+              {{headerFields.change24_perc}}%
+            </small>
+            <br />
+            {{headerFields.change24}}
+          </p>
         </div>
         <div class="col-sm" style="text-align:center">
           Total Volume
           <p class="text-secondary">{{headerFields.total_volume}}</p>
         </div>
-        <div class="col-sm" style="text-align:center">
+        <!-- <div class="col-sm" style="text-align:center">
           Deposited
           <p class="text-secondary">{{deposit}}</p>
         </div>
         <div class="col-sm" style="text-align:center">
           Users
           <p class="text-secondary"></p>
-        </div>
+        </div>-->
       </div>
     </div>
-    <div class="col-2">
+    <!-- <div class="col-2">
       <button class="bg-dark h15" align="right" @click="tokenprofile">
         <img src="../../../public/tokenicon.png" />
         Token Profile
       </button>
-    </div>
+    </div>-->
     <div class="col-2" style="text-align: right">
       <b-button
         block
@@ -109,17 +116,17 @@ export default {
     },
   },
   mounted() {
-    var key = localStorage.getItem("token");
-    axios.get("TokenNetworkDelta.json").then((resp) => {
-      resp.data.TOKEN_NETWORK_DELTA.forEach((element) => {
-        if (element.key == key) {
-          this.price = element.datakey.token.valueBtc;
-          this.deposit = element.datakey.totalDeposit;
-          this.marketcap = element.datakey.token.marketCap;
-          this.change = element.datakey.token.priceChangeDayBtc;
-        }
-      });
-    });
+    // var key = localStorage.getItem("token");
+    // axios.get("TokenNetworkDelta.json").then((resp) => {
+    //   resp.data.TOKEN_NETWORK_DELTA.forEach((element) => {
+    //     if (element.key == key) {
+    //       this.price = element.datakey.token.valueBtc;
+    //       this.deposit = element.datakey.totalDeposit;
+    //       this.marketcap = element.datakey.token.marketCap;
+    //       this.change = element.datakey.token.priceChangeDayBtc;
+    //     }
+    //   });
+    // });
   },
   methods: {
     showDashboard() {
@@ -131,15 +138,15 @@ export default {
     },
 
     tokenprofile() {
-      if (localStorage.getItem("token")) {
-        this.$router.push("/tokenprofile");
-      } else {
-        this.$swal({
-          type: "error",
-          title: "No token key avaliable!",
-          text: " Please provide a token key to go to this page",
-        });
-      }
+      // if (localStorage.getItem("token")) {
+      //   this.$router.push("/tokenprofile");
+      // } else {
+      //   this.$swal({
+      //     type: "error",
+      //     title: "No token key avaliable!",
+      //     text: " Please provide a token key to go to this page",
+      //   });
+      // }
     },
 
     reset() {
