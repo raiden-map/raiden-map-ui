@@ -56,11 +56,10 @@
           <b-row row class="navbar-brand-full">
             <b-input-group style="margin-left:10px;margin-right:10px">
               <b-form-input type="text" placeholder="Search" v-model="tokenkey"></b-form-input>
-              <!-- Attach Right button -->
               <b-input-group-append>
-                <b-button variant="secondary" @click="TokenSearch">
+                <b-input-group-text>
                   <i class="fa fa-search"></i>
-                </b-button>
+                </b-input-group-text>
               </b-input-group-append>
             </b-input-group>
           </b-row>
@@ -71,8 +70,8 @@
         <!-- <SidebarNav :navItems="nav"></SidebarNav> -->
 
         <nav class="sidebar-nav">
-          <ul class="nav">
-            <li class="nav-item" v-for="(item, index) in items" v-bind:key="index">
+          <ul class="nav" id="myUL">
+            <li class="nav-item" v-for="(item, index) in filteredList" v-bind:key="index">
               <a
                 class="nav-link"
                 :href="'#/cryptoDetails/?id=' + item._id"
@@ -105,6 +104,11 @@
                   >{{item.v2}}%</div>-->
                 </div>
               </a>
+            </li>
+            <li class="nav-item" v-show="noResult">
+              <span style="margin-left:15px;">
+                <i>no result</i>
+              </span>
             </li>
           </ul>
         </nav>
@@ -177,6 +181,7 @@ export default {
       nav: [],
       dangerModal: false,
       tokenkey: "",
+      noResult: false,
 
       //items: cryptoData,
       items: [],
@@ -191,6 +196,25 @@ export default {
       return this.$route.matched.filter(
         (route) => route.name || route.meta.label
       );
+    },
+    filteredList() {
+      var resultExist = false;
+
+      return this.items.filter((item) => {
+        //questo if-else serve a mostrare la label "nessun risultato"
+        if (
+          item.name.toLowerCase().includes(this.tokenkey.toLowerCase()) ==
+            false &&
+          resultExist == false
+        ) {
+          this.noResult = true;
+        } else {
+          this.noResult = false;
+          resultExist = true;
+        }
+
+        return item.name.toLowerCase().includes(this.tokenkey.toLowerCase());
+      });
     },
   },
 
@@ -264,7 +288,7 @@ export default {
 
       if (item != -1) {
         this.$set(item, "_active", "_active");
-        
+
         var currentItem = {
           twitterName: item.twitterName,
           cryptoName: item.name,
@@ -275,33 +299,37 @@ export default {
         };
 
         localStorage.setItem("currentToken", JSON.stringify(currentItem));
-      }
-      else{
+      } else {
         //valorizzare currentItem anche qui con i dati di Raiden Network?
       }
     },
 
     TokenSearch() {
-      var haskey = false;
-      axios.get("TokenNetworkDelta.json").then((resp) => {
-        resp.data.TOKEN_NETWORK_DELTA.forEach((element) => {
-          if (element.key == this.tokenkey) {
-            this.haskey = true;
-          }
-        });
-        if (this.haskey) {
-          localStorage.setItem("token", this.tokenkey);
-          window.location.reload();
-        } else {
-          this.tokenkey = "";
-          localStorage.removeItem("token");
-          this.$swal({
-            type: "error",
-            title: "This key was not found!",
-            text: " Please insert the correct key.",
-          });
-        }
-      });
+      var result = _.where(this.items, { name: this.tokenkey });
+
+      this.items = result;
+
+      //nbadini - codice obsoleto?
+      // var haskey = false;
+      // axios.get("TokenNetworkDelta.json").then((resp) => {
+      //   resp.data.TOKEN_NETWORK_DELTA.forEach((element) => {
+      //     if (element.key == this.tokenkey) {
+      //       this.haskey = true;
+      //     }
+      //   });
+      //   if (this.haskey) {
+      //     localStorage.setItem("token", this.tokenkey);
+      //     window.location.reload();
+      //   } else {
+      //     this.tokenkey = "";
+      //     localStorage.removeItem("token");
+      //     this.$swal({
+      //       type: "error",
+      //       title: "This key was not found!",
+      //       text: " Please insert the correct key.",
+      //     });
+      //   }
+      // });
     },
   },
 

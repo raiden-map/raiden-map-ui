@@ -107,10 +107,6 @@ export default {
       type: Array,
       default: null,
     },
-    headerFieldsMarket_cap: {
-      type: String,
-      default: null,
-    },
   },
   mounted() {
     var key = localStorage.getItem("token");

@@ -100,7 +100,7 @@ export default {
       this.tokenLink = currentToken.tokenLink;
 
       let self = this;
-      var headerFields = [];
+      var HeaderFields = [];
 
       await axios({
         method: "get",
@@ -110,7 +110,7 @@ export default {
           "/market_chart/?vs_currency=usd&days=0",
       })
         .then((response) => {
-          headerFields = {
+          HeaderFields = {
             price: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(response.data.prices[0][1]),
             market_cap: new Intl.NumberFormat('de-DE').format(response.data.market_caps[0][1]),
             total_volume: new Intl.NumberFormat('de-DE').format(response.data.total_volumes[0][1]),
@@ -121,7 +121,7 @@ export default {
           console.log(e);
         });
       
-      this.headerFields = headerFields;
+      this.headerFields = HeaderFields;
       
     },
 
