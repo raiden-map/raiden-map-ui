@@ -245,8 +245,7 @@ export default {
               dati.push(item);
 
               //imposto l'elemento come selezionato (ha senso solo quando viene refreshata la pagina)
-              if (item._id == self.$route.query.id)
-                self.setActive(item);
+              if (item._id == self.$route.query.id) self.setActive(item);
             });
           });
 
@@ -303,11 +302,18 @@ export default {
           tokenLink: item.homepage,
           tokenContract: item.contract,
         };
-
-        localStorage.setItem("currentToken", JSON.stringify(currentItem));
       } else {
-        //valorizzare currentItem anche qui con i dati di Raiden Network?
+        var currentItem = {
+          twitterName: 'raiden_network',
+          cryptoName: 'Raiden Network',
+          cryptoIcon: '',
+          tokenAddress: '',
+          tokenLink: 'https://raiden.network/',
+          tokenContract: '0x255aa6df07540cb5d3d297f0d0d4d84cb52bc8e6',
+        };
       }
+
+      localStorage.setItem("currentToken", JSON.stringify(currentItem));
     },
   },
 

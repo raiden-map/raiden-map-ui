@@ -57,7 +57,13 @@ export default {
       tokenAddress: "",
       tokenContract: "",
       tokenLink: "",
-      headerFields: [],
+      headerFields: {
+        price: 0,
+        market_cap: 0,
+        change24: 0,
+        change24_perc: 0,
+        total_volume: 0,
+      },
 
       paddingCardBody: "padding: 20px",
     };
@@ -103,7 +109,6 @@ export default {
       this.tokenLink = currentToken.tokenLink;
 
       let self = this;
-      var HeaderFields = [];
 
       await axios({
         method: "get",
@@ -112,27 +117,30 @@ export default {
           currentToken.tokenContract, //+ "/market_chart/?vs_currency=usd&days=0",
       })
         .then((response) => {
-          
-          var price = response.data.market_data.current_price.usd
-          var market_cap = response.data.market_data.market_cap.usd
-          var change24 = response.data.market_data.price_change_24h
-          var change24_perc = response.data.market_data.price_change_percentage_24h
-          var total_volume = response.data.market_data.total_volume.usd
+          var price = response.data.market_data.current_price.usd;
+          var market_cap = response.data.market_data.market_cap.usd;
+          var change24 = response.data.market_data.price_change_24h;
+          var change24_perc =
+            response.data.market_data.price_change_percentage_24h;
+          var total_volume = response.data.market_data.total_volume.usd;
 
-            HeaderFields = {
-              price: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(price),
-              market_cap: new Intl.NumberFormat('de-DE').format(market_cap),
-              change24: change24.toFixed(3),
-              change24_perc: change24_perc.toFixed(2),
-              total_volume: new Intl.NumberFormat('de-DE').format(total_volume),
-            };
+          self.headerFields.price = new Intl.NumberFormat("de-DE", {
+            style: "currency",
+            currency: "USD",
+          }).format(price);
+          self.headerFields.market_cap = new Intl.NumberFormat("de-DE").format(
+            market_cap
+          );
+          self.headerFields.change24 = change24.toFixed(3);
+          self.headerFields.change24_perc = change24_perc.toFixed(2);
+          self.headerFields.total_volume = new Intl.NumberFormat(
+            "de-DE"
+          ).format(total_volume);
         })
         .catch((e) => {
           console.log("CATCH");
           console.log(e);
         });
-
-      this.headerFields = HeaderFields;
     },
 
     tokenprofile() {

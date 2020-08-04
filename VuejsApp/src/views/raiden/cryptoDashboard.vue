@@ -53,38 +53,34 @@
 
     <b-col class="col-8">
       <b-card class="text-center">
-        <div class="text-muted text-uppercase font-weight-bold">Partecipants</div>
+        <div class="text-muted text-uppercase font-weight-bold mb-3">Partecipants</div>
 
-        <table>
-          <tr>
-            <td>a</td>
-            <td>d</td>
-            <td>v</td>
-          </tr>
-        </table>
-
-        <b-row class="mt-3">
-          <b-col class="col-6">
-            <div class="text-muted text-uppercase font-weight-bold font-xs">Registered</div>
-          </b-col>
-          <b-col class="col-3">
-            <div class="text-muted text-uppercase font-weight-bold font-xs">#Channel</div>
-          </b-col>
-          <b-col class="col-3">
-            <div class="text-muted text-uppercase font-weight-bold font-xs">Id Channel</div>
-          </b-col>
-        </b-row>
-        <b-row v-for="(item, idx) in partecipants" :key="idx" class="mt-1">
-          <b-col class="col-6">
-            <div class="text-uppercase font-xs">{{item.participant}}</div>
-          </b-col>
-          <b-col class="col-3">
-            <div class="text-uppercase font-weight-bold font-xs">&nbsp;AAA</div>
-          </b-col>
-          <b-col class="col-3">
-            <div class="text-uppercase font-weight-bold font-xs">&nbsp;AAA</div>
-          </b-col>
-        </b-row>
+        <b-table
+          :hover="false"
+          :striped="true"
+          :bordered="true"
+          :small="true"
+          :fixed="false"
+          responsive="sm"
+          :items="partecipants"
+          :fields="fieldsPartecipants"
+          :current-page="currentPage"
+          :per-page="perPage"
+        >
+          <!-- <template slot="status" slot-scope="data">
+              <b-badge :variant="getBadge(data.item.status)">{{data.item.status}}</b-badge>
+          </template>-->
+        </b-table>
+        <nav>
+          <b-pagination
+            :total-rows="getRowCount(partecipants)"
+            :per-page="perPage"
+            v-model="currentPage"
+            prev-text="Prev"
+            next-text="Next"
+            hide-goto-end-buttons
+          />
+        </nav>
       </b-card>
     </b-col>
 
@@ -225,6 +221,15 @@ export default {
           },
         ],
       },
+
+      fieldsPartecipants: [
+        { key: "participant", label: "Registered" },
+        { key: "count", label: "#Channels" },
+        { key: "channel_identifiers", label: "ID Channel" },
+      ],
+      currentPage: 1,
+      perPage: 20,
+      totalRows: 0,
     };
   },
 
@@ -284,8 +289,13 @@ export default {
         });
     },
 
+    getRowCount(items) {
+      return items.length;
+    },
+
     getPartecipants() {
       let self = this;
+      this.partecipants = []
 
       axios({
         method: "get",

@@ -2,10 +2,10 @@
   <div>
     <div>
       <RaidenHeader
-        :cryptoName="'Raiden Network'"
-        :cryptoIcon="''"
+        :cryptoName="cryptoName"
+        :cryptoIcon="cryptoIcon"
         :tokenLink="tokenLink"
-        :headerFields="[]"
+        :headerFields="headerFields"
         ref="raidenHeaderRef"
         @showMap="mapVisibility = true, dashboardVisibility = false, paddingCardBody = 'padding: 0px'"
         @showDashboard="mapVisibility = false, dashboardVisibility = true, paddingCardBody = 'padding: 20px'"
@@ -14,7 +14,9 @@
     <div class="card-body" :style="paddingCardBody">
       <cryptoDashboard
         v-show="dashboardVisibility"
-        :twitterName="'raiden_network'"
+        :twitterName="twitterName"
+        :tokenAddress="tokenAddress"
+        :tokenContract="tokenContract"
         ref="cryptoDashboardRef"
       />
       <mapLocation v-show="mapVisibility" />
@@ -53,6 +55,15 @@ export default {
       cryptoIcon: "",
       twitterName: "",
       tokenAddress: "",
+      tokenContract: "",
+      tokenLink: "",
+      headerFields: {
+        price: 0,
+        market_cap: 0,
+        change24: 0,
+        change24_perc: 0,
+        total_volume: 0,
+      },
 
       paddingCardBody: "padding: 20px",
     };
@@ -60,9 +71,11 @@ export default {
 
   mounted() {
     //chiamo queste istruzioni dopo che sono stati caricati tutti i componenti della pagina
-    this.$refs.raidenHeaderRef.reset();
-    this.$refs.cryptoDashboardRef.reset();
-    this.getData(this.$route.query.id);
+    //utilizzo Promise così da attendere che getData carichi tutte le variabili da passare ai componenti
+    Promise.resolve(this.getData()).then((result) => {
+      this.$refs.raidenHeaderRef.reset();
+      this.$refs.cryptoDashboardRef.reset();
+    });
 
     // var key = localStorage.getItem("token");
     // axios.get("TokenNetworkDelta.json").then((resp) => {
@@ -78,13 +91,11 @@ export default {
   },
 
   methods: {
-    getData(id) {
+    async getData(id) {
       this.mapVisibility = false;
       this.dashboardVisibility = true;
 
       this.paddingCardBody = "padding: 20px";
-
-      //var crypto = _.findWhere(this.items, { _id: id });
 
       var currentToken = JSON.parse(localStorage.getItem("currentToken"));
 
@@ -92,7 +103,43 @@ export default {
       this.cryptoIcon = currentToken.cryptoIcon;
       this.twitterName = currentToken.twitterName;
       this.tokenAddress = currentToken.tokenAddress;
+      this.tokenContract = currentToken.tokenContract;
       this.tokenLink = currentToken.tokenLink;
+
+      let self = this;
+
+      await axios({
+        method: "get",
+        url:
+          "https://api.coingecko.com/api/v3/coins/ethereum/contract/" +
+          currentToken.tokenContract, //+ "/market_chart/?vs_currency=usd&days=0",
+      })
+        .then((response) => {
+          var price = response.data.market_data.current_price.usd;
+          var market_cap = response.data.market_data.market_cap.usd;
+          var change24 = response.data.market_data.price_change_24h;
+          var change24_perc =
+            response.data.market_data.price_change_percentage_24h;
+          var total_volume = response.data.market_data.total_volume.usd;
+
+          self.headerFields.price = new Intl.NumberFormat("de-DE", {
+            style: "currency",
+            currency: "USD",
+          }).format(price);
+          self.headerFields.market_cap = new Intl.NumberFormat("de-DE").format(
+            market_cap
+          );
+          self.headerFields.change24 = change24.toFixed(3);
+          self.headerFields.change24_perc = change24_perc.toFixed(2);
+          self.headerFields.total_volume = new Intl.NumberFormat(
+            "de-DE"
+          ).format(total_volume);
+
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
+        });
     },
 
     tokenprofile() {
@@ -109,23 +156,21 @@ export default {
   },
 
   // beforeMount() {
-  //   this.getUnits();
   // },
 
   // mounted() {
-  //   this.$refs.raidenHeaderRef.reset();
-  //   this.$refs.cryptoDashboardRef.reset();
-  //   console.log($route);
-  //   //this.getData(param.query.id);
   // },
 
   watch: {
     $route: function (param) {
       //con $route dentro il watch riesco a intercettare il cambio pagina tramite l'id passato in get
       //in questo modo posso ricaricare i dati della pagina per ogni cryptovaluta
-      this.$refs.raidenHeaderRef.reset();
-      this.$refs.cryptoDashboardRef.reset();
-      this.getData(param.query.id);
+
+      //utilizzo Promise così da attendere che getData carichi tutte le variabili da passare ai componenti
+      Promise.resolve(this.getData()).then((result) => {
+        this.$refs.raidenHeaderRef.reset();
+        this.$refs.cryptoDashboardRef.reset();
+      });
     },
   },
 };

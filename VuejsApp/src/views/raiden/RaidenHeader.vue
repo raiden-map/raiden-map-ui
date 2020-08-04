@@ -93,7 +93,7 @@ export default {
       deposit: "",
       marketcap: "",
       change: "",
-      mapButtonVisibility: true,
+      mapButtonVisibility: false, //mettere a true per vedere il bottone
       dashboardButtonVisibility: false,
     };
   },
@@ -111,7 +111,7 @@ export default {
       default: null,
     },
     headerFields: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },
@@ -150,7 +150,7 @@ export default {
     },
 
     reset() {
-      this.mapButtonVisibility = true;
+      this.mapButtonVisibility = false, //mettere a true per vedere il bottone
       this.dashboardButtonVisibility = false;
     },
   },
