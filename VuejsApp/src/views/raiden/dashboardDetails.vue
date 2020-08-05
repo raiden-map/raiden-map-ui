@@ -182,9 +182,9 @@ export default {
           this.tokenAddress,
       })
         .then(function (response) {
-          self.openChannel = response.data[0].channelOpened;
-          self.closedChannel = response.data[0].channelClosed;
-          self.settledChannel = response.data[0].channelSettled;
+          self.openChannel = response.data.channelOpened;
+          self.closedChannel = response.data.channelClosed;
+          self.settledChannel = response.data.channelSettled;
 
           var result = _.findWhere(self.charts.options[0].series[0].data, {
             name: "Open Channels",
