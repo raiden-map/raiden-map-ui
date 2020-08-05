@@ -297,13 +297,13 @@ export default {
           this.tokenAddress,
       })
         .then(function (response) {
-          _.each(response.data.openedChannel, function (item, index) {
+          _.each(response.data.channelOpened, function (item, index) {
             var data = [item.blockTimestamp, item.opened_channels_sum];
 
             self.charts.options[0].series[0].data.push(data);
           });
 
-          _.each(response.data.closedChannel, function (item, index) {
+          _.each(response.data.channelClosed, function (item, index) {
             var data = [item.blockTimestamp, item.closed_channels_sum];
 
             self.charts.options[0].series[1].data.push(data);
