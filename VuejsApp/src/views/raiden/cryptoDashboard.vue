@@ -44,6 +44,12 @@
                 class="text-uppercase font-weight-bold font-xs"
               >&nbsp;{{this.channelOverview.channelClosed}}</span>
             </div>
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Withdrah:</span>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.withdrawCount}}</span>
+            </div>
           </b-col>
           <b-col class="col-6">
             <div>
@@ -57,12 +63,6 @@
               <span
                 class="text-uppercase font-weight-bold font-xs"
               >&nbsp;{{this.channelOverview.depositCount}}</span>
-            </div>
-            <div>
-              <span class="text-muted text-uppercase font-weight-bold font-xs">Withdrah:</span>
-              <span
-                class="text-uppercase font-weight-bold font-xs"
-              >&nbsp;{{this.channelOverview.withdrawCount}}</span>
             </div>
           </b-col>
         </b-row>
@@ -151,7 +151,6 @@ export default {
       TimeLineKey: 0,
       openNodesItems: nodiAperti,
       elevationData: fakeElevationData,
-      partecipants: [],
       channelOverview: {
         channelClosed: 0,
         channelOpened: 0,
@@ -248,6 +247,7 @@ export default {
         ],
       },
 
+      partecipants: [],
       fieldsPartecipants: [
         { key: "participant", label: "Address" },
         { key: "count", label: "#Channels" },
@@ -297,6 +297,7 @@ export default {
           this.tokenAddress,
       })
         .then(function (response) {
+          console.log(response.data)
           _.each(response.data.channelOpened, function (item, index) {
             var data = [item.blockTimestamp, item.opened_channels_sum];
 
@@ -330,8 +331,8 @@ export default {
           this.tokenAddress,
       })
         .then(function (response) {
-          self.channelOverview.channelClosed = response.data[0].channelClosed;
-          self.channelOverview.channelOpened = response.data[0].channelOpened;
+          self.channelOverview.channelClosed = response.data[0].channelClosed - response.data[0].channelSettled;
+          self.channelOverview.channelOpened = response.data[0].channelOpened - response.data[0].channelClosed;
           self.channelOverview.channelSettled = response.data[0].channelSettled;
           self.channelOverview.depositCount = response.data[0].channelSettled;
           self.channelOverview.withdrawCount = response.data[0].channelSettled;

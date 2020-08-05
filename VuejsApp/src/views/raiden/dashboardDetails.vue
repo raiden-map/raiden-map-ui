@@ -7,6 +7,37 @@
       <b-card>
         <highcharts :options="charts.options[0]" style="width:100%" :key="TimeLineKey"></highcharts>
       </b-card>
+
+      <b-card class="text-center">
+        <div class="text-muted text-uppercase font-weight-bold mb-3">Partecipants</div>
+
+        <b-table
+          :hover="false"
+          :striped="true"
+          :bordered="true"
+          :small="true"
+          :fixed="false"
+          responsive="sm"
+          :items="partecipants"
+          :fields="fieldsPartecipants"
+          :current-page="currentPage"
+          :per-page="perPage"
+        >
+          <!-- <template slot="status" slot-scope="data">
+              <b-badge :variant="getBadge(data.item.status)">{{data.item.status}}</b-badge>
+          </template>-->
+        </b-table>
+        <nav>
+          <b-pagination
+            :total-rows="getRowCount(partecipants)"
+            :per-page="perPage"
+            v-model="currentPage"
+            prev-text="Prev"
+            next-text="Next"
+            hide-goto-end-buttons
+          />
+        </nav>
+      </b-card>
     </b-col>
 
     <b-col class="col-4" v-if="Boolean(twitterName)">
@@ -80,6 +111,15 @@ export default {
         blockTimestamp: "",
       },
 
+      partecipants: [],
+      fieldsPartecipants: [
+        { key: "participant", label: "Address" },
+        { key: "count", label: "#Channels" },
+      ],
+      currentPage: 1,
+      perPage: 10,
+      totalRows: 0,
+
       openChannel: 0,
       closedChannel: 0,
       settledChannel: 0,
@@ -134,14 +174,6 @@ export default {
           },
         ],
       },
-
-      fieldsPartecipants: [
-        { key: "participant", label: "Address" },
-        { key: "count", label: "#Channels" },
-      ],
-      currentPage: 1,
-      perPage: 10,
-      totalRows: 0,
     };
   },
 
@@ -166,6 +198,8 @@ export default {
       //voce di menù. Senza questo i parametri passati non si aggiornano e si vedrebbero sempre i tweet dello stesso account.
       //---la utilizzo anche nel componente highchart così se faccio zoom sul grafico di un token, quando cambio pagine, il grafico viene refreshato
       this.TimeLineKey += 1;
+
+      this.getPartecipants();
     },
 
     getRowCount(items) {
@@ -182,8 +216,12 @@ export default {
           this.tokenAddress,
       })
         .then(function (response) {
-          self.openChannel = response.data.channelOpened;
-          self.closedChannel = response.data.channelClosed;
+          self.openChannel =
+            response.data.channelOpened - response.data.channelClosed;
+
+          self.closedChannel =
+            response.data.channelClosed - response.data.channelSettled;
+
           self.settledChannel = response.data.channelSettled;
 
           var result = _.findWhere(self.charts.options[0].series[0].data, {
@@ -200,6 +238,29 @@ export default {
             name: "Settled Channels",
           });
           result.y = self.settledChannel;
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
+          //console.log(response);
+        });
+    },
+
+    getPartecipants() {
+      let self = this;
+      this.partecipants = [];
+      var part = [];
+
+      axios({
+        method: "get",
+        url: "http://localhost:3000/api/token-network/participant-overview/",
+      })
+        .then(function (response) {
+          _.each(response.data, function (item, index) {
+            part.push(item);
+          });
+
+          self.partecipants = _.sortBy(part, "count").reverse();
         })
         .catch((e) => {
           console.log("CATCH");
