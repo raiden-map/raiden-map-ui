@@ -12,12 +12,12 @@
       />
     </div>
     <div class="card-body" :style="paddingCardBody">
-      <cryptoDashboard
+      <dashboardDetails
         v-show="dashboardVisibility"
         :twitterName="twitterName"
         :tokenAddress="tokenAddress"
         :tokenContract="tokenContract"
-        ref="cryptoDashboardRef"
+        ref="dashboardDetailsRef"
       />
       <mapLocation v-show="mapVisibility" />
     </div>
@@ -27,7 +27,7 @@
 <script>
 import cryptoData from "./fakeToken";
 
-import cryptoDashboard from "./cryptoDashboard";
+import dashboardDetails from "./dashboardDetails";
 import mapLocation from "./mapLocation";
 import RaidenHeader from "./RaidenHeader";
 
@@ -38,7 +38,7 @@ export default {
   name: "cryptoDetails",
   components: {
     mapLocation,
-    cryptoDashboard,
+    dashboardDetails,
     RaidenHeader,
   },
   data() {
@@ -74,7 +74,7 @@ export default {
     //utilizzo Promise così da attendere che getData carichi tutte le variabili da passare ai componenti
     Promise.resolve(this.getData()).then((result) => {
       this.$refs.raidenHeaderRef.reset();
-      this.$refs.cryptoDashboardRef.reset();
+      this.$refs.dashboardDetailsRef.reset();
     });
 
     // var key = localStorage.getItem("token");
@@ -126,14 +126,18 @@ export default {
             style: "currency",
             currency: "USD",
           }).format(price);
-          self.headerFields.market_cap = new Intl.NumberFormat("de-DE").format(
+          self.headerFields.market_cap = new Intl.NumberFormat("de-DE", {
+            style: "currency",
+            currency: "USD",
+          }).format(
             market_cap
           );
           self.headerFields.change24 = change24.toFixed(3);
           self.headerFields.change24_perc = change24_perc.toFixed(2);
-          self.headerFields.total_volume = new Intl.NumberFormat(
-            "de-DE"
-          ).format(total_volume);
+          self.headerFields.total_volume = new Intl.NumberFormat("de-DE", {
+            style: "currency",
+            currency: "USD",
+          }).format(total_volume);
 
         })
         .catch((e) => {
@@ -169,7 +173,7 @@ export default {
       //utilizzo Promise così da attendere che getData carichi tutte le variabili da passare ai componenti
       Promise.resolve(this.getData()).then((result) => {
         this.$refs.raidenHeaderRef.reset();
-        this.$refs.cryptoDashboardRef.reset();
+        this.$refs.dashboardDetailsRef.reset();
       });
     },
   },

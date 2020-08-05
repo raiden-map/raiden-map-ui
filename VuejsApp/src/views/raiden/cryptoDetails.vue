@@ -128,14 +128,18 @@ export default {
             style: "currency",
             currency: "USD",
           }).format(price);
-          self.headerFields.market_cap = new Intl.NumberFormat("de-DE").format(
+          self.headerFields.market_cap = new Intl.NumberFormat("de-DE", {
+            style: "currency",
+            currency: "USD",
+          }).format(
             market_cap
           );
           self.headerFields.change24 = change24.toFixed(3);
           self.headerFields.change24_perc = change24_perc.toFixed(2);
-          self.headerFields.total_volume = new Intl.NumberFormat(
-            "de-DE"
-          ).format(total_volume);
+          self.headerFields.total_volume = new Intl.NumberFormat("de-DE", {
+            style: "currency",
+            currency: "USD",
+          }).format(total_volume);
         })
         .catch((e) => {
           console.log("CATCH");

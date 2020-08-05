@@ -1,10 +1,10 @@
 <template >
   <div class="row">
-    <div class="col h4 col-2">
+    <div class="col col-2" style="font-size: 20px">
       <div style="margin-left:15px;margin-top:15px;">
-        <a :href="tokenLink" target="blank" style="text-decoration:none; color:black; ">
+        <a :href="tokenLink" target="_blank" style="text-decoration:none; color:black;">
           <img :src="cryptoIcon" width="32" style="margin-right:10px" />
-          {{cryptoName}}
+          <strong>{{cryptoName}}</strong>
         </a>
       </div>
     </div>

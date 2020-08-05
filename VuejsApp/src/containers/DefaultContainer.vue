@@ -92,11 +92,12 @@
                     class="col-3"
                     v-bind:class="{ 'font-weight-bold': Boolean(item._active) }"
                   >{{item.name}}</div>
-                  <div
+                  <!-- <div
                     style="margin-top:10px"
                     class="col-3"
                     v-bind:class="{ 'font-weight-bold': Boolean(item._active) }"
-                  >${{item.price}}</div>
+                  >${{item.price}}</div>-->
+
                   <!-- <div
                     style="margin-top:10px"
                     class="col-3"
@@ -218,15 +219,9 @@ export default {
     },
   },
 
-  beforeUpdate: function () {
-    let self = this;
-
-    //il codice qua sotto si attiva quando refresho la pagina selezionando la voce di menù corrispondente all'id che ho nell'url
-    // var result = _.findWhere(this.items, { _id: this.$route.query.id });
-    // if (result != undefined) {
-    //   this.setActive(result);
-    // }
-  },
+  // beforeUpdate: function () {
+  //
+  // },
 
   methods: {
     navData() {
@@ -240,23 +235,29 @@ export default {
         .then(function (response) {
           _.each(response.data, function (item, i) {
             //recupero il prezzo dei Token utilizzando un Promise, così che i dati vengano caricati tutti nello stesso momento
-            Promise.resolve(self.getCryptoPrice(item)).then((result) => {
-              item.price = result;
-              dati.push(item);
+            // Promise.resolve(self.getCryptoPrice(item)).then((result) => {
+            //   item.price = result;
+            //   dati.push(item);
 
-              //imposto l'elemento come selezionato (ha senso solo quando viene refreshata la pagina)
-              if (item._id == self.$route.query.id) self.setActive(item);
-            });
+            //   //imposto l'elemento come selezionato (ha senso solo quando viene refreshata la pagina)
+            //   if (item._id == self.$route.query.id) self.setActive(item);
+            // });
+
+            dati.push(item);
+
+            //imposto l'elemento come selezionato (ha senso solo quando viene refreshata la pagina)
+            if (item._id == self.$route.query.id) self.setActive(item);
           });
 
-          self.items = dati;
+          //self.items = dati;
+          self.items = _.sortBy(dati, "name");
         })
         .catch((e) => {
           console.log("CATCH");
           console.log(e);
         });
 
-      return dati;
+      //return dati;
 
       //nbaldini
       //quello sotto è codice obsoleto?
@@ -301,15 +302,17 @@ export default {
           tokenAddress: item.tokenNetwork,
           tokenLink: item.homepage,
           tokenContract: item.contract,
+          blockTimestamp: item.blockTimestamp,
         };
       } else {
         var currentItem = {
-          twitterName: 'raiden_network',
-          cryptoName: 'Raiden Network',
-          cryptoIcon: '',
-          tokenAddress: '',
-          tokenLink: 'https://raiden.network/',
-          tokenContract: '0x255aa6df07540cb5d3d297f0d0d4d84cb52bc8e6',
+          twitterName: "raiden_network",
+          cryptoName: "Raiden Network",
+          cryptoIcon: "",
+          tokenAddress: "",
+          tokenLink: "https://raiden.network/",
+          tokenContract: "0x255aa6df07540cb5d3d297f0d0d4d84cb52bc8e6",
+          blockTimestamp: "",
         };
       }
 

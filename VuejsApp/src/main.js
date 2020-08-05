@@ -12,7 +12,10 @@ import Vuex from 'vuex'
 import VueSweetalert2 from '../node_modules/vue-sweetalert2';
 import VueSwal from 'vue-swal'
 import underscore from 'vue-underscore';
+import Highcharts from "highcharts";
 import HighchartsVue from 'highcharts-vue'
+import VariablePie from 'highcharts/modules/variable-pie'
+
 
 
 Vue.use(VueSweetalert2);
@@ -20,7 +23,10 @@ Vue.use(VueSwal)
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
 Vue.use(underscore)
+
+VariablePie(Highcharts)
 Vue.use(HighchartsVue)
+
 Cryptoicon.add(icon)
 Vue.use(Cryptoicon)
 

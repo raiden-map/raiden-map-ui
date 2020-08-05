@@ -5,46 +5,64 @@
         <highcharts :options="charts.options[0]"></highcharts>
       </b-card>-->
       <b-card>
-        <highcharts :options="charts.options[0]" style="width:100%"></highcharts>
+        <highcharts :options="charts.options[0]" style="width:100%" :key="TimeLineKey"></highcharts>
       </b-card>
     </b-col>
     <b-col class="col-4">
       <b-card class="text-center">
         <div class="h5 m-0">Token Network Address</div>
-        <div>{{tokenAddress}}</div>
+        <div>
+          <a :href="'https://etherscan.io/address/'+tokenAddress" target="_blank" style="text-decoration: none">{{tokenAddress}}</a>
+        </div>
       </b-card>
       <b-card class="text-center">
         <div class="h5 m-0">Contract Address</div>
-        <div>{{tokenContract}}</div>
+        <div>
+          <a :href="'https://etherscan.io/address/'+tokenContract" target="_blank" style="text-decoration: none">{{tokenContract}}</a>
+        </div>
       </b-card>
       <b-card>
         <b-row>
-          <b-col class="col-6">
+          <b-col class="col-12 mb-2">
             <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Registered:</span>
-              <span class="text-uppercase font-weight-bold font-xs">&nbsp;1</span>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.blockTimestamp}}</span>
             </div>
+          </b-col>
+          <b-col class="col-6">
             <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Opened Channels:</span>
-              <span class="text-uppercase font-weight-bold font-xs">&nbsp;3</span>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.channelOpened}}</span>
             </div>
             <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Closed Channels:</span>
-              <span class="text-uppercase font-weight-bold font-xs">&nbsp;5</span>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.channelClosed}}</span>
             </div>
           </b-col>
           <b-col class="col-6">
             <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Settled Channels:</span>
-              <span class="text-uppercase font-weight-bold font-xs">&nbsp;2</span>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.channelSettled}}</span>
             </div>
             <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Deposit:</span>
-              <span class="text-uppercase font-weight-bold font-xs">&nbsp;4</span>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.depositCount}}</span>
             </div>
             <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Withdrah:</span>
-              <span class="text-uppercase font-weight-bold font-xs">&nbsp;6</span>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.withdrawCount}}</span>
             </div>
           </b-col>
         </b-row>
@@ -134,6 +152,14 @@ export default {
       openNodesItems: nodiAperti,
       elevationData: fakeElevationData,
       partecipants: [],
+      channelOverview: {
+        channelClosed: 0,
+        channelOpened: 0,
+        channelSettled: 0,
+        depositCount: 0,
+        withdrawCount: 0,
+        blockTimestamp: "",
+      },
 
       charts: {
         options: [
@@ -184,7 +210,7 @@ export default {
             tooltip: {
               // headerFormat: "Distance: {point.x:.1f} km<br>",
               // pointFormat: "{point.y} m a. s. l.",
-              // shared: true,
+              shared: true,
             },
 
             series: [
@@ -223,12 +249,11 @@ export default {
       },
 
       fieldsPartecipants: [
-        { key: "participant", label: "Registered" },
+        { key: "participant", label: "Address" },
         { key: "count", label: "#Channels" },
-        { key: "channel_identifiers", label: "ID Channel" },
       ],
       currentPage: 1,
-      perPage: 20,
+      perPage: 10,
       totalRows: 0,
     };
   },
@@ -251,11 +276,13 @@ export default {
   methods: {
     reset() {
       //il parametro TimeLineKey, assegnato alla :key di <TimeLine> serve per refreschare il componente ogni volta che si cambia
-      //voce di menù. Senza questo i parametri passati non si aggiornano e si vedrebbero sempre i tweet dello stesso account
+      //voce di menù. Senza questo i parametri passati non si aggiornano e si vedrebbero sempre i tweet dello stesso account.
+      //---la utilizzo anche nel componente highchart così se faccio zoom sul grafico di un token, quando cambio pagine, il grafico viene refreshato
       this.TimeLineKey += 1;
 
       this.getDatiGrafico();
       this.getPartecipants();
+      this.getChannelOverview();
     },
 
     getDatiGrafico() {
@@ -266,7 +293,7 @@ export default {
       axios({
         method: "get",
         url:
-          "http://localhost:3000/api/token-network/channel-overview/" +
+          "http://localhost:3000/api/token-network/channel-timeline/" +
           this.tokenAddress,
       })
         .then(function (response) {
@@ -293,9 +320,36 @@ export default {
       return items.length;
     },
 
+    getChannelOverview() {
+      let self = this;
+
+      axios({
+        method: "get",
+        url:
+          "http://localhost:3000/api/token-network/channel-overview/" +
+          this.tokenAddress,
+      })
+        .then(function (response) {
+          self.channelOverview.channelClosed = response.data[0].channelClosed;
+          self.channelOverview.channelOpened = response.data[0].channelOpened;
+          self.channelOverview.channelSettled = response.data[0].channelSettled;
+          self.channelOverview.depositCount = response.data[0].channelSettled;
+          self.channelOverview.withdrawCount = response.data[0].channelSettled;
+
+          var currentToken = JSON.parse(localStorage.getItem("currentToken"));
+          self.channelOverview.blockTimestamp = new Date(currentToken.blockTimestamp)
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
+          //console.log(response);
+        });
+    },
+
     getPartecipants() {
       let self = this;
-      this.partecipants = []
+      this.partecipants = [];
+      var part = [];
 
       axios({
         method: "get",
@@ -305,8 +359,10 @@ export default {
       })
         .then(function (response) {
           _.each(response.data, function (item, index) {
-            self.partecipants.push(item);
+            part.push(item);
           });
+
+          self.partecipants = _.sortBy(part, "count").reverse();
         })
         .catch((e) => {
           console.log("CATCH");
