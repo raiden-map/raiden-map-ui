@@ -234,7 +234,7 @@ export default {
 
       axios({
         method: "get",
-        url: "http://localhost:3000/api/token-network/info",
+        url: "http://10.0.2.4:3000/api/token-network/info",
       })
         .then(function (response) {
           _.each(response.data, function (item, i) {
