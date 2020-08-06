@@ -12,13 +12,21 @@
       <b-card class="text-center">
         <div class="h5 m-0">Token Network Address</div>
         <div>
-          <a :href="'https://etherscan.io/address/'+tokenAddress" target="_blank" style="text-decoration: none">{{tokenAddress}}</a>
+          <a
+            :href="'https://etherscan.io/address/'+tokenAddress"
+            target="_blank"
+            style="text-decoration: none"
+          >{{tokenAddress}}</a>
         </div>
       </b-card>
       <b-card class="text-center">
         <div class="h5 m-0">Contract Address</div>
         <div>
-          <a :href="'https://etherscan.io/address/'+tokenContract" target="_blank" style="text-decoration: none">{{tokenContract}}</a>
+          <a
+            :href="'https://etherscan.io/address/'+tokenContract"
+            target="_blank"
+            style="text-decoration: none"
+          >{{tokenContract}}</a>
         </div>
       </b-card>
       <b-card>
@@ -63,6 +71,25 @@
               <span
                 class="text-uppercase font-weight-bold font-xs"
               >&nbsp;{{this.channelOverview.depositCount}}</span>
+            </div>
+          </b-col>
+
+          <b-col class="col-12">
+            <hr />
+          </b-col>
+
+          <b-col class="col-5">
+            <div class="text-center">
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Unique Account</span>
+              <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.uniqueAccount}}</div>
+            </div>
+          </b-col>
+          <b-col class="col-7">
+            <div class="text-center">
+              <span
+                class="text-muted text-uppercase font-weight-bold font-xs"
+              >AVG Channels per account</span>
+              <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.avgChannels}}</div>
             </div>
           </b-col>
         </b-row>
@@ -160,6 +187,9 @@ export default {
         blockTimestamp: "",
       },
 
+      uniqueAccount: 0,
+      avgChannels: 0,
+
       charts: {
         options: [
           {
@@ -179,7 +209,7 @@ export default {
             },
 
             caption: {
-              text: "trascina il mouse sull'asse x per fare zoom",
+              text: "drag horizontally your mouse on the graphic to zoom in.",
             },
 
             title: {
@@ -297,7 +327,6 @@ export default {
           this.tokenAddress,
       })
         .then(function (response) {
-          console.log(response.data)
           _.each(response.data.channelOpened, function (item, index) {
             var data = [item.blockTimestamp, item.opened_channels_sum];
 
@@ -331,14 +360,18 @@ export default {
           this.tokenAddress,
       })
         .then(function (response) {
-          self.channelOverview.channelClosed = response.data[0].channelClosed - response.data[0].channelSettled;
-          self.channelOverview.channelOpened = response.data[0].channelOpened - response.data[0].channelClosed;
+          self.channelOverview.channelClosed =
+            response.data[0].channelClosed - response.data[0].channelSettled;
+          self.channelOverview.channelOpened =
+            response.data[0].channelOpened - response.data[0].channelClosed;
           self.channelOverview.channelSettled = response.data[0].channelSettled;
           self.channelOverview.depositCount = response.data[0].channelSettled;
           self.channelOverview.withdrawCount = response.data[0].channelSettled;
 
           var currentToken = JSON.parse(localStorage.getItem("currentToken"));
-          self.channelOverview.blockTimestamp = new Date(currentToken.blockTimestamp)
+          self.channelOverview.blockTimestamp = new Date(
+            currentToken.blockTimestamp
+          );
         })
         .catch((e) => {
           console.log("CATCH");
@@ -359,11 +392,17 @@ export default {
           this.tokenAddress,
       })
         .then(function (response) {
+          var totChannels = 0
           _.each(response.data, function (item, index) {
             part.push(item);
+            totChannels += item.count
           });
 
           self.partecipants = _.sortBy(part, "count").reverse();
+          self.uniqueAccount = response.data.length;
+          
+          var AvgChannels = totChannels/response.data.length;
+          self.avgChannels = AvgChannels.toFixed(2);
         })
         .catch((e) => {
           console.log("CATCH");

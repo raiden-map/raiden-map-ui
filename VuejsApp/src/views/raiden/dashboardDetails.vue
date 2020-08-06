@@ -40,20 +40,51 @@
       </b-card>
     </b-col>
 
-    <b-col class="col-4" v-if="Boolean(twitterName)">
+    <b-col class="col-4">
       <b-card class>
-        <div class="h3 m-0">
-          <strong class="text-primary">{{this.openChannel}}</strong> Open Channels
-        </div>
-        <div class="h3 m-0">
-          <strong class="text-primary">{{this.closedChannel}}</strong> Closed Channels
-        </div>
-        <div class="h3 m-0">
-          <strong class="text-primary">{{this.settledChannel}}</strong> Settled Channels
-        </div>
+        <b-row>
+          <strong class="h2 col-2 text-primary">{{this.openChannel}}</strong>
+          <span class="h2 col-10">Open Channels</span>
+          <strong class="h2 col-2 text-primary">{{this.closedChannel}}</strong>
+          <span class="h2 col-10">Closed Channels</span>
+          <strong class="h2 col-2 text-primary">{{this.settledChannel}}</strong>
+          <span class="h2 col-10">Settled Channels</span>
+        </b-row>
       </b-card>
 
-      <div class="card">
+      <b-card>
+        <b-row>
+          <b-col class="col-4">
+            <div class="text-center">
+              <span class="text-muted text-uppercase font-weight-bold font-xs">
+                Token
+                <br />Network
+              </span>
+              <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.tokenNetwork}}</div>
+            </div>
+          </b-col>
+          <b-col class="col-4">
+            <div class="text-center">
+              <span class="text-muted text-uppercase font-weight-bold font-xs">
+                Unique
+                <br />Account
+              </span>
+              <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.uniqueAccount}}</div>
+            </div>
+          </b-col>
+          <b-col class="col-4">
+            <div class="text-center">
+              <span class="text-muted text-uppercase font-weight-bold font-xs">
+                AVG Channels
+                <br />per account
+              </span>
+              <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.avgChannels}}</div>
+            </div>
+          </b-col>
+        </b-row>
+      </b-card>
+
+      <div class="card" v-if="Boolean(twitterName)">
         <div class="card-body" style="padding:0px;">
           <div style="height: 750px; max-height: 750px;" id="twitterTimeline">
             <Timeline
@@ -101,7 +132,6 @@ export default {
       TimeLineKey: 0,
       openNodesItems: nodiAperti,
       elevationData: fakeElevationData,
-      partecipants: [],
       channelOverview: {
         channelClosed: 0,
         channelOpened: 0,
@@ -110,6 +140,10 @@ export default {
         withdrawCount: 0,
         blockTimestamp: "",
       },
+
+      tokenNetwork: 0,
+      uniqueAccount: 0,
+      avgChannels: 0,
 
       partecipants: [],
       fieldsPartecipants: [
@@ -256,11 +290,19 @@ export default {
         url: "http://localhost:3000/api/token-network/participant-overview/",
       })
         .then(function (response) {
+          var totChannels = 0;
           _.each(response.data, function (item, index) {
             part.push(item);
+            totChannels += item.count;
           });
 
           self.partecipants = _.sortBy(part, "count").reverse();
+          self.uniqueAccount = response.data.length;
+
+          var AvgChannels = totChannels / response.data.length;
+          self.avgChannels = AvgChannels.toFixed(2);
+
+          self.tokenNetwork = self.$nTokens;
         })
         .catch((e) => {
           console.log("CATCH");

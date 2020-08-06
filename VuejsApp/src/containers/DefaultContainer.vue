@@ -48,9 +48,9 @@
                 width="25"
                 height="25"
                 alt="Token Logo"
-                style="margin-right: 5px;"
+                style="margin-right: 5px; margin-bottom: 6px;"
               />
-              <span style="font-size:20px;">Token Networks</span>
+              <span style="font-size:22px;">Raiden Network</span>
             </a>
           </b-row>
           <b-row row class="navbar-brand-full">
@@ -116,6 +116,10 @@
 
         <SidebarFooter />
         <!-- <SidebarMinimizer /> -->
+        <a href="http://www.vivido.it" style="text-decoration: none" target="_blank">
+          <span class="text-muted text-uppercase font-weight-bold font-xs ml-1">Powered by </span>
+          <img src="../../public/icon/vivido.png" class="ml-1" style="margin-bottom:5px" width="45" />
+        </a>
       </AppSidebar>
       <main class="main">
         <div class="align-content-xl-center bg-white">
@@ -249,15 +253,13 @@ export default {
             if (item._id == self.$route.query.id) self.setActive(item);
           });
 
-          //self.items = dati;
           self.items = _.sortBy(dati, "name");
+          Vue.prototype.$nTokens = dati.length;
         })
         .catch((e) => {
           console.log("CATCH");
           console.log(e);
         });
-
-      //return dati;
 
       //nbaldini
       //quello sotto è codice obsoleto?
