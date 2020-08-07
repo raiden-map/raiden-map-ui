@@ -19,7 +19,7 @@
         :tokenContract="tokenContract"
         ref="dashboardDetailsRef"
       />
-      <mapLocation v-show="mapVisibility" />
+      <!-- <mapLocation v-show="mapVisibility" /> -->
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@
 import cryptoData from "./fakeToken";
 
 import dashboardDetails from "./dashboardDetails";
-import mapLocation from "./mapLocation";
+//import mapLocation from "./mapLocation";
 import RaidenHeader from "./RaidenHeader";
 
 import { _ } from "vue-underscore";
@@ -37,7 +37,7 @@ import axios from "axios";
 export default {
   name: "cryptoDetails",
   components: {
-    mapLocation,
+    //mapLocation,
     dashboardDetails,
     RaidenHeader,
   },
@@ -72,6 +72,7 @@ export default {
   mounted() {
     //chiamo queste istruzioni dopo che sono stati caricati tutti i componenti della pagina
     //utilizzo Promise così da attendere che getData carichi tutte le variabili da passare ai componenti
+    
     Promise.resolve(this.getData()).then((result) => {
       this.$refs.raidenHeaderRef.reset();
       this.$refs.dashboardDetailsRef.reset();
@@ -96,6 +97,21 @@ export default {
       this.dashboardVisibility = true;
 
       this.paddingCardBody = "padding: 20px";
+
+      //serve per quando si carica la pagina la prima volta e non si passa dal metodo setActive in DefaultContainer
+      if (JSON.parse(localStorage.getItem("currentToken")) == null) {
+        var currentItem = {
+          twitterName: "raiden_network",
+          cryptoName: "Raiden Network",
+          cryptoIcon: "",
+          tokenAddress: "",
+          tokenLink: "https://raiden.network/",
+          tokenContract: "0x255aa6df07540cb5d3d297f0d0d4d84cb52bc8e6",
+          blockTimestamp: "",
+        };
+
+        localStorage.setItem("currentToken", JSON.stringify(currentItem));
+      }
 
       var currentToken = JSON.parse(localStorage.getItem("currentToken"));
 
@@ -129,16 +145,13 @@ export default {
           self.headerFields.market_cap = new Intl.NumberFormat("de-DE", {
             style: "currency",
             currency: "USD",
-          }).format(
-            market_cap
-          );
+          }).format(market_cap);
           self.headerFields.change24 = change24.toFixed(3);
           self.headerFields.change24_perc = change24_perc.toFixed(2);
           self.headerFields.total_volume = new Intl.NumberFormat("de-DE", {
             style: "currency",
             currency: "USD",
           }).format(total_volume);
-
         })
         .catch((e) => {
           console.log("CATCH");
@@ -146,35 +159,40 @@ export default {
         });
     },
 
-    tokenprofile() {
-      if (localStorage.getItem("token")) {
-        this.$router.push("/tokenprofile");
-      } else {
-        this.$swal({
-          type: "error",
-          title: "No token key avaliable!",
-          text: " Please provide a token key to go to this page",
-        });
-      }
-    },
+    // tokenprofile() {
+    //   if (localStorage.getItem("token")) {
+    //     this.$router.push("/tokenprofile");
+    //   } else {
+    //     this.$swal({
+    //       type: "error",
+    //       title: "No token key avaliable!",
+    //       text: " Please provide a token key to go to this page",
+    //     });
+    //   }
+    // },
   },
 
   // beforeMount() {
   // },
 
-  // mounted() {
+  // created() {
+  //   console.log('create')
+  //   Promise.resolve(this.getData()).then((result) => {
+  //     this.$refs.raidenHeaderRef.reset();
+  //     this.$refs.dashboardDetailsRef.reset();
+  //   });
   // },
 
   watch: {
     $route: function (param) {
       //con $route dentro il watch riesco a intercettare il cambio pagina tramite l'id passato in get
       //in questo modo posso ricaricare i dati della pagina per ogni cryptovaluta
-
       //utilizzo Promise così da attendere che getData carichi tutte le variabili da passare ai componenti
-      Promise.resolve(this.getData()).then((result) => {
-        this.$refs.raidenHeaderRef.reset();
-        this.$refs.dashboardDetailsRef.reset();
-      });
+      // console.log('watch')
+      // Promise.resolve(this.getData()).then((result) => {
+      //   this.$refs.raidenHeaderRef.reset();
+      //   this.$refs.dashboardDetailsRef.reset();
+      // });
     },
   },
 };

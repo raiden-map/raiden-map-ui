@@ -19,7 +19,7 @@
         :tokenContract="tokenContract"
         ref="cryptoDashboardRef"
       />
-      <mapLocation v-show="mapVisibility" />
+      <!-- <mapLocation v-show="mapVisibility" /> -->
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@
 import cryptoData from "./fakeToken";
 
 import cryptoDashboard from "./cryptoDashboard";
-import mapLocation from "./mapLocation";
+//import mapLocation from "./mapLocation";
 import RaidenHeader from "./RaidenHeader";
 
 import { _ } from "vue-underscore";
@@ -37,7 +37,7 @@ import axios from "axios";
 export default {
   name: "cryptoDetails",
   components: {
-    mapLocation,
+    //mapLocation,
     cryptoDashboard,
     RaidenHeader,
   },
@@ -99,6 +99,11 @@ export default {
 
       this.paddingCardBody = "padding: 20px";
 
+      //serve per quando si carica la pagina la prima volta e non si passa dal metodo setActive in DefaultContainer
+      if (JSON.parse(localStorage.getItem("currentToken")) == null) {
+        await this.loadTokenData(this.$route.query.id);
+      }
+
       var currentToken = JSON.parse(localStorage.getItem("currentToken"));
 
       this.cryptoName = currentToken.cryptoName;
@@ -131,9 +136,7 @@ export default {
           self.headerFields.market_cap = new Intl.NumberFormat("de-DE", {
             style: "currency",
             currency: "USD",
-          }).format(
-            market_cap
-          );
+          }).format(market_cap);
           self.headerFields.change24 = change24.toFixed(3);
           self.headerFields.change24_perc = change24_perc.toFixed(2);
           self.headerFields.total_volume = new Intl.NumberFormat("de-DE", {
@@ -147,16 +150,31 @@ export default {
         });
     },
 
-    tokenprofile() {
-      if (localStorage.getItem("token")) {
-        this.$router.push("/tokenprofile");
-      } else {
-        this.$swal({
-          type: "error",
-          title: "No token key avaliable!",
-          text: " Please provide a token key to go to this page",
+    async loadTokenData(id) {
+      //serve per quando si carica la pagina la prima volta e non si passa dal metodo setActive in DefaultContainer
+      await axios({
+        method: "get",
+        url: this.$apiUrl + "token-network/info/" + id,
+      })
+        .then((response) => {
+          console.log();
+
+          var currentItem = {
+            twitterName: response.data.twitterName,
+            cryptoName: response.data.name,
+            cryptoIcon: response.data.imgUrl,
+            tokenAddress: response.data.tokenNetwork,
+            tokenLink: response.data.homepage,
+            tokenContract: response.data.contract,
+            blockTimestamp: response.data.blockTimestamp,
+          };
+
+          localStorage.setItem("currentToken", JSON.stringify(currentItem));
+        })
+        .catch((e) => {
+          console.log("CATCH");
+          console.log(e);
         });
-      }
     },
   },
 
@@ -166,7 +184,10 @@ export default {
   // mounted() {
   // },
 
-  created: function () {},
+  created: function () {
+    //serve per quando si carica la pagina la prima volta e non si passa dal metodo setActive in DefaultContainer
+    //this.loadTokenData(this.$route.query.id);
+  },
 
   watch: {
     $route: function (param) {

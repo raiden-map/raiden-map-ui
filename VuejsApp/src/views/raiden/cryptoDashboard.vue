@@ -323,7 +323,7 @@ export default {
       axios({
         method: "get",
         url:
-          "http://10.0.2.4:3000/api/token-network/channel-timeline/" +
+          this.$apiUrl + "token-network/channel-timeline/" +
           this.tokenAddress,
       })
         .then(function (response) {
@@ -356,7 +356,7 @@ export default {
       axios({
         method: "get",
         url:
-          "http://10.0.2.4:3000/api/token-network/channel-overview/" +
+          this.$apiUrl + "token-network/channel-overview/" +
           this.tokenAddress,
       })
         .then(function (response) {
@@ -388,7 +388,7 @@ export default {
       axios({
         method: "get",
         url:
-          "http://10.0.2.4:3000/api/token-network/participant-overview/" +
+          this.$apiUrl + "token-network/participant-overview/" +
           this.tokenAddress,
       })
         .then(function (response) {
@@ -414,7 +414,7 @@ export default {
 
   watch: {
     tokenAddress: function (param) {
-      //this.getDatiGrafico();
+      this.getDatiGrafico();
     },
   },
 

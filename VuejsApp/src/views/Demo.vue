@@ -4,9 +4,9 @@
 
     <div id="myMap"></div>
   </div>
+  </template>
 
-</template>
-<script src="https://maps.googleapis.com/maps/api/js?key=yourKey"></script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=yourKey"></script> -->
 
 <script>
 

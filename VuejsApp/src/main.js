@@ -16,8 +16,6 @@ import Highcharts from "highcharts";
 import HighchartsVue from 'highcharts-vue'
 import VariablePie from 'highcharts/modules/variable-pie'
 
-
-
 Vue.use(VueSweetalert2);
 Vue.use(VueSwal)
 Vue.use(Vuex)

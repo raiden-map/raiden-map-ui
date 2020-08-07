@@ -1,5 +1,5 @@
-<template>
-  <div class="app bg-white">
+<template >
+  <div class="app bg-white" v-if="mobile == false">
     <!-- <AppHeader fixed>
       <SidebarToggler class="d-lg-none" display="md" mobile />
       <b-link class="navbar-brand" to="#">
@@ -117,7 +117,7 @@
         <SidebarFooter />
         <!-- <SidebarMinimizer /> -->
         <a href="http://www.vivido.it" style="text-decoration: none" target="_blank">
-          <span class="text-muted text-uppercase font-weight-bold font-xs ml-1">Powered by </span>
+          <span class="text-muted text-uppercase font-weight-bold font-xs ml-1">Powered by</span>
           <img src="../../public/icon/vivido.png" class="ml-1" style="margin-bottom:5px" width="45" />
         </a>
       </AppSidebar>
@@ -133,6 +133,20 @@
     </div>
 
     <!--<TheFooter>-->
+  </div>
+
+  <div class="app bg-white text-center p-3" v-else>
+    <div>
+      <img
+        src="../../public/img/raiden-map logo.png"
+        width="100"
+        height="100"
+        alt="Token Logo"
+        class="text-center mb-3"
+      />
+    </div>
+    <span>We are really sorry, but our website is not yet accessible by mobile devices.</span>
+    <span class="mt-2">You can visit raidenmap.io from your computer.</span>
   </div>
 </template>
 
@@ -161,6 +175,7 @@ import {
 import DefaultAside from "./DefaultAside";
 import DefaultHeaderDropdownAccnt from "./DefaultHeaderDropdownAccnt";
 import LineExample from "../views/charts/LineExample";
+import { isMobile } from "mobile-device-detect";
 
 export default {
   name: "DefaultContainer",
@@ -183,6 +198,7 @@ export default {
 
   data() {
     return {
+      mobile: isMobile,
       nav: [],
       dangerModal: false,
       tokenkey: "",
@@ -234,7 +250,7 @@ export default {
 
       axios({
         method: "get",
-        url: "http://10.0.2.4:3000/api/token-network/info",
+        url: this.$apiUrl + "token-network/info",
       })
         .then(function (response) {
           _.each(response.data, function (item, i) {
@@ -317,7 +333,7 @@ export default {
           blockTimestamp: "",
         };
       }
-
+      
       localStorage.setItem("currentToken", JSON.stringify(currentItem));
     },
   },

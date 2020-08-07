@@ -43,11 +43,11 @@
     <b-col class="col-4">
       <b-card class>
         <b-row>
-          <strong class="h2 col-2 text-primary">{{this.openChannel}}</strong>
+          <strong class="h2 col-2 pr-0 pl-1 text-primary">{{this.openChannel}}</strong>
           <span class="h2 col-10">Open Channels</span>
-          <strong class="h2 col-2 text-primary">{{this.closedChannel}}</strong>
+          <strong class="h2 col-2 pr-0 pl-1 text-primary">{{this.closedChannel}}</strong>
           <span class="h2 col-10">Closed Channels</span>
-          <strong class="h2 col-2 text-primary">{{this.settledChannel}}</strong>
+          <strong class="h2 col-2 pr-0 pl-1 text-primary">{{this.settledChannel}}</strong>
           <span class="h2 col-10">Settled Channels</span>
         </b-row>
       </b-card>
@@ -186,19 +186,19 @@ export default {
                 data: [
                   {
                     name: "Open Channels",
-                    y: 0,
+                    y: 1,
                     z: 300,
                     color: "#2F353A",
                   },
                   {
                     name: "Closed Channels",
-                    y: 0,
+                    y: 1,
                     z: 300,
                     color: "#c7c3c9",
                   },
                   {
                     name: "Settled Channels",
-                    y: 0,
+                    y: 1,
                     z: 300,
                     color: "#8A818F",
                   },
@@ -246,8 +246,7 @@ export default {
       axios({
         method: "get",
         url:
-          "http://10.0.2.4:3000/api/token-network/channel-overview/" +
-          this.tokenAddress,
+          this.$apiUrl + "token-network/channel-overview/" + this.tokenAddress,
       })
         .then(function (response) {
           self.openChannel =
@@ -287,7 +286,7 @@ export default {
 
       axios({
         method: "get",
-        url: "http://10.0.2.4:3000/api/token-network/participant-overview/",
+        url: this.$apiUrl + "token-network/participant-overview/",
       })
         .then(function (response) {
           var totChannels = 0;
@@ -317,6 +316,8 @@ export default {
   updated: function () {
     this.getDatiGrafico();
   },
+
+  // created() {},
 };
 </script>
 

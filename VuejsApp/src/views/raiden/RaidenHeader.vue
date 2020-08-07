@@ -37,28 +37,34 @@
       </div>
     </div>
 
-    <div class="col-2" style="font-size: 40px;">
-      <b-button
-        block
-        variant
-        class="btn-square float-right mb-1"
-        @click="donateModal = true"
-        style="vertical-align: middle; width: 150px;"
-      >
-        <img src="../../../public/icon/donate.png" class="mb-1" width="22" />
-        <span class="text-uppercase font-weight-bold">&nbsp;Donate</span>
-      </b-button>
+    <div class="col-2 p-0">
+      <!-- <b-row class="m-0"> -->
+      <div class="col-12">
+        <b-button
+          block
+          variant
+          class="btn-square float-right mb-1"
+          @click="donateModal = true"
+          style="vertical-align: middle; width: 150px; height:38px"
+        >
+          <img src="../../../public/icon/donate.png" class="mb-1" width="22" />
+          <span class="text-uppercase font-weight-bold">&nbsp;Donate</span>
+        </b-button>
+      </div>
 
-      <b-button
-        block
-        variant
-        class="btn-square float-right m-0"
-        @click="feedbackModal = true"
-        style="vertical-align: middle; width: 150px;"
-      >
-        <img src="../../../public/icon/comment.svg" class="mb-0" width="20" />
-        <span class="text-uppercase font-weight-bold">&nbsp;Feedback</span>
-      </b-button>
+      <div class="col-12">
+        <b-button
+          block
+          variant
+          class="btn-square float-right m-0"
+          @click="feedbackModal = true"
+          style="vertical-align: middle; width: 150px; height:38px"
+        >
+          <img src="../../../public/icon/comment.svg" class="mb-0" width="20" />
+          <span class="text-uppercase font-weight-bold">&nbsp;Feedback</span>
+        </b-button>
+      </div>
+      <!-- </b-row> -->
     </div>
 
     <!-- non viene mostrato -->
@@ -104,13 +110,17 @@
         <div class="mt-4 mb-5">
           <p>
             Support us with a donation, so we can continue to develop and improve this project.
-            <br/>Here below you can find our wallet, click on it to copy the address.
+            <br />Here below you can find our wallet, click on it to copy the address.
           </p>
         </div>
         <b-row>
-          <div class="col-1"></div>
-          <div class="col-10">
+          <div class="col-12">
             <b-input-group>
+              <b-input-group-append @click="copyAddress">
+                <b-input-group-text style>
+                  <img src="../../../public/icon/ethereum.svg" class="mb-1" width="17" />
+                </b-input-group-text>
+              </b-input-group-append>
               <b-form-input
                 class="text-center"
                 type="text"
@@ -133,7 +143,6 @@
               triggers="focus"
             />
           </div>
-          <div class="col-1"></div>
         </b-row>
         <div class="mt-3">
           <p>
@@ -167,7 +176,7 @@
           </p>
           <p class="mt-5">
             Thanks for any kind of feedback you will decide to leave.
-            <br/>It will be very useful.
+            <br />It will be very useful.
           </p>
         </div>
       </div>
