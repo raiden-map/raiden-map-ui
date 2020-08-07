@@ -37,22 +37,29 @@
       <SidebarToggler class="d-md-down-none" display="lg" />
       <AppSidebar fixed class="ss">
         <SidebarHeader>
-          <b-row row class="navbar-brand-full" style="margin-left: 20px; margin-bottom: 10px">
+          <div row class="navbar-brand-full" style="margin-left: 15px; margin-bottom: 10px">
             <a
               href="#/dashboard"
               style="text-decoration: none; color: white"
               v-on:click="setActive(-1)"
             >
-              <img
-                src="../../public/img/raiden-map logo.png"
-                width="25"
-                height="25"
-                alt="Token Logo"
-                style="margin-right: 5px; margin-bottom: 6px;"
-              />
-              <span style="font-size:22px;">Raiden Network</span>
+              <b-row>
+                <div class="col-3 m-0 p-0 mt-2">
+                <img
+                  src="../../public/img/raiden-map logo.png"
+                  width="60"
+                  height="60"
+                  alt="Token Logo"
+                  style="margin-right: 5px; margin-bottom: 6px;"
+                />
+                </div>
+                <div class="col-9 text-left mt-2">
+                  <div style="font-size:24px;">RaidenMap</div>
+                  <div style="font-size:11px;">the Raiden Network Analyzer</div>
+                </div>
+              </b-row>
             </a>
-          </b-row>
+          </div>
           <b-row row class="navbar-brand-full">
             <b-input-group style="margin-left:10px;margin-right:10px">
               <b-form-input type="text" placeholder="Search" v-model="tokenkey"></b-form-input>
@@ -333,7 +340,7 @@ export default {
           blockTimestamp: "",
         };
       }
-      
+
       localStorage.setItem("currentToken", JSON.stringify(currentItem));
     },
   },
