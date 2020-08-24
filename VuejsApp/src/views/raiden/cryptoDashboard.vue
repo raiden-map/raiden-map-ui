@@ -33,7 +33,7 @@
         <b-row>
           <b-col class="col-12 mb-2">
             <div>
-              <span class="text-muted text-uppercase font-weight-bold font-xs">Registered:</span>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Registered <small>UTC Time</small>:</span>
               <span
                 class="text-uppercase font-weight-bold font-xs"
               >&nbsp;{{this.channelOverview.blockTimestamp}}</span>
@@ -186,7 +186,20 @@ export default {
         withdrawCount: 0,
         blockTimestamp: "",
       },
-
+      monthNames: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
       uniqueAccount: 0,
       avgChannels: 0,
 
@@ -323,8 +336,7 @@ export default {
       axios({
         method: "get",
         url:
-          this.$apiUrl + "token-network/channel-timeline/" +
-          this.tokenAddress,
+          this.$apiUrl + "token-network/channel-timeline/" + this.tokenAddress,
       })
         .then(function (response) {
           _.each(response.data.channelOpened, function (item, index) {
@@ -356,8 +368,7 @@ export default {
       axios({
         method: "get",
         url:
-          this.$apiUrl + "token-network/channel-overview/" +
-          this.tokenAddress,
+          this.$apiUrl + "token-network/channel-overview/" + this.tokenAddress,
       })
         .then(function (response) {
           self.channelOverview.channelClosed =
@@ -369,9 +380,21 @@ export default {
           self.channelOverview.withdrawCount = response.data[0].channelSettled;
 
           var currentToken = JSON.parse(localStorage.getItem("currentToken"));
-          self.channelOverview.blockTimestamp = new Date(
-            currentToken.blockTimestamp
-          );
+
+          var date = new Date(currentToken.blockTimestamp);
+
+          self.channelOverview.blockTimestamp =
+            date.getUTCDate() +
+            " " +
+            self.monthNames[date.getUTCMonth()] +
+            " " +
+            date.getUTCFullYear() +
+            " - " +
+            date.getUTCHours() +
+            ":" +
+            date.getUTCMinutes() +
+            ":" +
+            date.getUTCSeconds();
         })
         .catch((e) => {
           console.log("CATCH");
@@ -388,20 +411,21 @@ export default {
       axios({
         method: "get",
         url:
-          this.$apiUrl + "token-network/participant-overview/" +
+          this.$apiUrl +
+          "token-network/participant-overview/" +
           this.tokenAddress,
       })
         .then(function (response) {
-          var totChannels = 0
+          var totChannels = 0;
           _.each(response.data, function (item, index) {
             part.push(item);
-            totChannels += item.count
+            totChannels += item.count;
           });
 
           self.participants = _.sortBy(part, "count").reverse();
           self.uniqueAccount = response.data.length;
-          
-          var AvgChannels = totChannels/response.data.length;
+
+          var AvgChannels = totChannels / response.data.length;
           self.avgChannels = AvgChannels.toFixed(2);
         })
         .catch((e) => {
