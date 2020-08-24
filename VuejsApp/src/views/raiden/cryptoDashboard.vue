@@ -53,7 +53,7 @@
               >&nbsp;{{this.channelOverview.channelClosed}}</span>
             </div>
             <div>
-              <span class="text-muted text-uppercase font-weight-bold font-xs">Withdrah:</span>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Withdraw:</span>
               <span
                 class="text-uppercase font-weight-bold font-xs"
               >&nbsp;{{this.channelOverview.withdrawCount}}</span>
@@ -98,7 +98,7 @@
 
     <b-col class="col-8">
       <b-card class="text-center">
-        <div class="text-muted text-uppercase font-weight-bold mb-3">Partecipants</div>
+        <div class="text-muted text-uppercase font-weight-bold mb-3">Participants</div>
 
         <b-table
           :hover="false"
@@ -107,8 +107,8 @@
           :small="true"
           :fixed="false"
           responsive="sm"
-          :items="partecipants"
-          :fields="fieldsPartecipants"
+          :items="participants"
+          :fields="fieldsParticipants"
           :current-page="currentPage"
           :per-page="perPage"
         >
@@ -118,7 +118,7 @@
         </b-table>
         <nav>
           <b-pagination
-            :total-rows="getRowCount(partecipants)"
+            :total-rows="getRowCount(participants)"
             :per-page="perPage"
             v-model="currentPage"
             prev-text="Prev"
@@ -277,8 +277,8 @@ export default {
         ],
       },
 
-      partecipants: [],
-      fieldsPartecipants: [
+      participants: [],
+      fieldsParticipants: [
         { key: "participant", label: "Address" },
         { key: "count", label: "#Channels" },
       ],
@@ -311,7 +311,7 @@ export default {
       this.TimeLineKey += 1;
 
       this.getDatiGrafico();
-      this.getPartecipants();
+      this.getParticipants();
       this.getChannelOverview();
     },
 
@@ -380,9 +380,9 @@ export default {
         });
     },
 
-    getPartecipants() {
+    getParticipants() {
       let self = this;
-      this.partecipants = [];
+      this.participants = [];
       var part = [];
 
       axios({
@@ -398,7 +398,7 @@ export default {
             totChannels += item.count
           });
 
-          self.partecipants = _.sortBy(part, "count").reverse();
+          self.participants = _.sortBy(part, "count").reverse();
           self.uniqueAccount = response.data.length;
           
           var AvgChannels = totChannels/response.data.length;

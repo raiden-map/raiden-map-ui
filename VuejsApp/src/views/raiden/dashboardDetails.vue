@@ -9,7 +9,7 @@
       </b-card>
 
       <b-card class="text-center">
-        <div class="text-muted text-uppercase font-weight-bold mb-3">Partecipants</div>
+        <div class="text-muted text-uppercase font-weight-bold mb-3">Participants</div>
 
         <b-table
           :hover="false"
@@ -18,8 +18,8 @@
           :small="true"
           :fixed="false"
           responsive="sm"
-          :items="partecipants"
-          :fields="fieldsPartecipants"
+          :items="participants"
+          :fields="fieldsParticipants"
           :current-page="currentPage"
           :per-page="perPage"
         >
@@ -29,7 +29,7 @@
         </b-table>
         <nav>
           <b-pagination
-            :total-rows="getRowCount(partecipants)"
+            :total-rows="getRowCount(participants)"
             :per-page="perPage"
             v-model="currentPage"
             prev-text="Prev"
@@ -145,8 +145,8 @@ export default {
       uniqueAccount: 0,
       avgChannels: 0,
 
-      partecipants: [],
-      fieldsPartecipants: [
+      participants: [],
+      fieldsParticipants: [
         { key: "participant", label: "Address" },
         { key: "count", label: "#Channels" },
       ],
@@ -233,7 +233,7 @@ export default {
       //---la utilizzo anche nel componente highchart così se faccio zoom sul grafico di un token, quando cambio pagine, il grafico viene refreshato
       this.TimeLineKey += 1;
 
-      this.getPartecipants();
+      this.getParticipants();
     },
 
     getRowCount(items) {
@@ -279,9 +279,9 @@ export default {
         });
     },
 
-    getPartecipants() {
+    getParticipants() {
       let self = this;
-      this.partecipants = [];
+      this.participants = [];
       var part = [];
 
       axios({
@@ -295,7 +295,7 @@ export default {
             totChannels += item.count;
           });
 
-          self.partecipants = _.sortBy(part, "count").reverse();
+          self.participants = _.sortBy(part, "count").reverse();
           self.uniqueAccount = response.data.length;
 
           var AvgChannels = totChannels / response.data.length;
