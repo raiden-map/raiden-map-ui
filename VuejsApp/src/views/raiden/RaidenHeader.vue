@@ -9,7 +9,69 @@
       </div>
     </div>
 
-    <div class="col-8">
+    <div class="col-10" v-if="mobile == true">
+      <!-- <b-row class="m-0"> -->
+      <div class="col-12 mt-1">
+        <b-button
+          block
+          variant
+          class="btn-square float-right mb-1"
+          @click="donateModal = true"
+          style="vertical-align: middle; width: 150px; height:38px"
+        >
+          <img src="../../../public/icon/donate.png" class="mb-1" width="22" />
+          <span class="text-uppercase font-weight-bold">&nbsp;Donate</span>
+        </b-button>
+      </div>
+
+      <div class="col-12">
+        <b-button
+          block
+          variant
+          class="btn-square float-right m-0"
+          @click="feedbackModal = true"
+          style="vertical-align: middle; width: 150px; height:38px"
+        >
+          <img src="../../../public/icon/comment.svg" class="mb-0" width="20" />
+          <span class="text-uppercase font-weight-bold">&nbsp;Feedback</span>
+        </b-button>
+      </div>
+      <!-- </b-row> -->
+    </div>
+
+    <div class="col-12 mt-2" v-if="mobile == true">
+      <div class="row">
+        <div class="col-6 p-0 m-0">
+          <div class="col-sm" style="text-align:center">
+            Price
+            <p class="text-secondary">{{headerFields.price}}</p>
+          </div>
+          <div class="col-sm" style="text-align:center">
+            Market Cap
+            <p class="text-secondary">{{headerFields.market_cap}}</p>
+          </div>
+        </div>
+        <div class="col-6 p-0 m-0">
+          <div class="col-sm" style="text-align:center">
+            Change (24h)
+            <p :class="headerFields.change24 < 0 ? 'text-danger' : 'text-success'">
+              <small>
+                <i :class="headerFields.change24 < 0 ? 'fa fa-level-down' : 'fa fa-level-up'"></i>
+                {{headerFields.change24_perc}}%
+              </small>
+              <br />
+              {{headerFields.change24}}
+            </p>
+          </div>
+          <div class="col-sm" style="text-align:center">
+            Total Volume
+            <p class="text-secondary">{{headerFields.total_volume}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-8" v-if="mobile == false">
       <div class="row">
         <div class="col-sm" style="text-align:center">
           Price
@@ -37,7 +99,7 @@
       </div>
     </div>
 
-    <div class="col-2 p-0">
+    <div class="col-2 p-0" v-if="mobile == false">
       <!-- <b-row class="m-0"> -->
       <div class="col-12">
         <b-button
@@ -186,12 +248,14 @@
 
 <script>
 import axios from "axios";
+import { isMobile } from "mobile-device-detect";
 
 export default {
   name: "RaidenHeader",
   components: {},
   data() {
     return {
+      mobile: isMobile,
       price: "",
       deposit: "",
       marketcap: "",

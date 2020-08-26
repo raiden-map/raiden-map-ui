@@ -1,14 +1,16 @@
 <template>
   <b-card-group row class="card-rows">
-    <b-col class="col-8">
+    <b-col :class="Boolean(mobile) ? 'col-12 p-0' : 'col-8'">
       <!-- <b-card v-show="false">
         <highcharts :options="charts.options[0]"></highcharts>
       </b-card>-->
-      <b-card>
-        <highcharts :options="charts.options[0]" style="width:100%" :key="TimeLineKey"></highcharts>
-      </b-card>
+      <div class="card">
+        <div class="card-body" :class="Boolean(mobile) ? 'p-0 m-0' : ''">
+          <highcharts :options="charts.options[0]" style="width:100%" :key="TimeLineKey"></highcharts>
+        </div>
+      </div>
     </b-col>
-    <b-col class="col-4">
+    <b-col :class="Boolean(mobile) ? 'col-12 p-0' : 'col-4'">
       <b-card class="text-center">
         <div class="h5 m-0">Token Network Address</div>
         <div>
@@ -33,7 +35,10 @@
         <b-row>
           <b-col class="col-12 mb-2">
             <div>
-              <span class="text-muted text-uppercase font-weight-bold font-xs">Registered <small>UTC Time</small>:</span>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">
+                Registered
+                <small>UTC Time</small>:
+              </span>
               <span
                 class="text-uppercase font-weight-bold font-xs"
               >&nbsp;{{this.channelOverview.blockTimestamp}}</span>
@@ -96,7 +101,7 @@
       </b-card>
     </b-col>
 
-    <b-col class="col-8">
+    <b-col :class="Boolean(mobile) ? 'col-12 p-0' : 'col-8'">
       <b-card class="text-center">
         <div class="text-muted text-uppercase font-weight-bold mb-3">Participants</div>
 
@@ -129,7 +134,7 @@
       </b-card>
     </b-col>
 
-    <b-col class="col-4" v-if="Boolean(twitterName)">
+    <b-col :class="Boolean(mobile) ? 'col-12 p-0' : 'col-4'" v-if="Boolean(twitterName)">
       <div class="card">
         <div class="card-body" style="padding:0px;">
           <div style="height: 750px; max-height: 750px;" id="twitterTimeline">
@@ -156,9 +161,9 @@ import { Tweet, Moment, Timeline } from "vue-tweet-embed";
 import OmisegoChart from "../charts/OmisegoChart";
 
 import { Chart } from "highcharts-vue";
-
 import { _ } from "vue-underscore";
 import axios from "axios";
+import { isMobile } from "mobile-device-detect";
 
 export default {
   name: "cryptoDashboard",
@@ -173,6 +178,7 @@ export default {
   },
   data() {
     return {
+      mobile: isMobile,
       componentKey: 0,
       sourceType: "profile",
       TimeLineKey: 0,

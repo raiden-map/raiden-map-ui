@@ -1,39 +1,7 @@
 <template >
   <div class="app bg-white" v-if="mobile == false">
-    <!-- <AppHeader fixed>
-      <SidebarToggler class="d-lg-none" display="md" mobile />
-      <b-link class="navbar-brand" to="#">
-        <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
-        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
-      </b-link>
-      <SidebarToggler class="d-md-down-none" display="lg" />
-    <b-navbar-nav class="d-md-down-none">
-        <b-nav-item class="px-3" to="/dashboard">Dashboard</b-nav-item>
-        <b-nav-item class="px-3" to="/users" exact>Users</b-nav-item>
-        <b-nav-item class="px-3">Settings</b-nav-item>
-      </b-navbar-nav> 
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item class="d-md-down-none">
-          <DefaultHeaderDropdownNotif/>
-        </b-nav-item>
-        <b-nav-item class="d-md-down-none">
-          <DefaultHeaderDropdownTasks/>
-        </b-nav-item>
-        <b-nav-item class="d-md-down-none">
-          <DefaultHeaderDropdownMssgs/>
-        </b-nav-item>
-        <b-nav-item class="d-md-down-none">
-          <DefaultHeaderDropdown/>
-        </b-nav-item>
-        <DefaultHeaderDropdownAccnt/>
-      </b-navbar-nav>
-      <AsideToggler class="d-none d-lg-block" />
-      <AsideToggler class="d-lg-none" mobile />
-    </AppHeader>-->
-
     <div class="app-body bg-white">
       <SidebarToggler class="d-lg-none" display="md" mobile />
-      <b-link class="navbar-brand" to="#"></b-link>
       <SidebarToggler class="d-md-down-none" display="lg" />
       <AppSidebar fixed class="ss">
         <SidebarHeader>
@@ -45,13 +13,13 @@
             >
               <b-row>
                 <div class="col-3 m-0 p-0 mt-2">
-                <img
-                  src="../../public/img/raiden-map logo.png"
-                  width="60"
-                  height="60"
-                  alt="Token Logo"
-                  style="margin-right: 5px; margin-bottom: 6px;"
-                />
+                  <img
+                    src="../../public/img/raiden-map logo.png"
+                    width="60"
+                    height="60"
+                    alt="Token Logo"
+                    style="margin-right: 5px; margin-bottom: 6px;"
+                  />
                 </div>
                 <div class="col-9 text-left mt-2">
                   <div style="font-size:24px;">RaidenMap</div>
@@ -75,7 +43,6 @@
         <SidebarForm />
 
         <!-- <SidebarNav :navItems="nav"></SidebarNav> -->
-
         <nav class="sidebar-nav">
           <ul class="nav" id="myUL">
             <li class="nav-item" v-for="(item, index) in filteredList" v-bind:key="index">
@@ -123,6 +90,7 @@
 
         <SidebarFooter />
         <!-- <SidebarMinimizer /> -->
+
         <a href="http://www.vivido.it" style="text-decoration: none" target="_blank">
           <span class="text-muted text-uppercase font-weight-bold font-xs ml-1">Powered by</span>
           <img src="../../public/icon/vivido.png" class="ml-1" style="margin-bottom:5px" width="45" />
@@ -142,8 +110,92 @@
     <!--<TheFooter>-->
   </div>
 
-  <div class="app bg-white text-center p-3" v-else>
-    <div>
+  <!-- -------------------------------------MOBILE------------------------------------- -->
+
+  <div class="app bg-white text-center" v-else>
+    <div class="app-body bg-white mt-0 mb-5">
+      <div style="width:55px; height:1px">&nbsp;</div>
+      
+      <AppSidebar fixed class="ss" style="height:100% ">
+        <SidebarHeader>
+          <div row class="navbar-brand-full" style="margin-left: 15px; margin-bottom: 10px">
+            <a
+              href="#/dashboard"
+              style="text-decoration: none; color: white"
+              v-on:click="setActive(-1)"
+            >
+              <b-row>
+                <div class="col-3 m-0 p-0 mt-2">
+                  <img
+                    src="../../public/img/raiden-map logo.png"
+                    width="60"
+                    height="60"
+                    alt="Token Logo"
+                    style="margin-right: 5px; margin-bottom: 6px; margin-left:190px"
+                  />
+                </div>
+              </b-row>
+            </a>
+          </div>
+        </SidebarHeader>
+
+        <SidebarForm />
+
+        <!-- <SidebarNav :navItems="nav"></SidebarNav> -->
+        <nav class="sidebar-nav">
+          <ul class="nav" id="myUL">
+            <li class="nav-item" v-for="(item, index) in filteredList" v-bind:key="index">
+              <a
+                class="nav-link"
+                :href="'#/cryptoDetails/?id=' + item._id"
+                :class="Boolean(item._active) ? 'active' : ''"
+                v-on:click="setActive(item)"
+              >
+                <div class="row" v-bind:class="{ 'pl-20': Boolean(item._active) }">
+                  <div style="padding: 0px; text-align: center; margin-left:200px" class="col-2">
+                    <img :src="item.imgUrl" width="20" />
+                    <br />
+                    <small
+                      v-bind:class="{ 'font-weight-bold': Boolean(item._active) }"
+                      style="text-transform: uppercase"
+                    >{{item.symbol}}</small>
+                  </div>
+                  <div
+                    style="margin-top:10px; margin-left:200px"
+                    class="col-3"
+                    v-bind:class="{ 'font-weight-bold': Boolean(item._active) }"
+                  ></div>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item" v-show="noResult">
+              <span style="margin-left:15px;">
+                <i>no result</i>
+              </span>
+            </li>
+          </ul>
+        </nav>
+
+        <SidebarFooter />
+        <!-- <SidebarMinimizer /> -->
+
+        <a href="http://www.vivido.it" style="text-decoration: none; margin-left:200px" target="_blank">
+          <span class="text-muted text-uppercase font-weight-bold ml-1" style="font-size: 8px;">Powered by</span>
+          <img src="../../public/icon/vivido.png" class="ml-1" style="margin-bottom:5px" width="45" />
+        </a>
+      </AppSidebar>
+      <main class="main">
+        <div class="align-content-xl-center bg-white">
+          <router-view></router-view>
+        </div>
+      </main>
+      <AppAside fixed>
+        <!--aside-->
+        <DefaultAside />
+      </AppAside>
+    </div>
+
+    <!-- <div>
       <img
         src="../../public/img/raiden-map logo.png"
         width="100"
@@ -153,7 +205,7 @@
       />
     </div>
     <span>We are really sorry, but our website is not yet accessible by mobile devices.</span>
-    <span class="mt-2">You can visit raidenmap.io from your computer.</span>
+    <span class="mt-2">You can visit raidenmap.io from your computer.</span>-->
   </div>
 </template>
 
@@ -378,5 +430,21 @@ export default {
 }
 .pl-20 {
   padding-left: 20px;
+}
+
+.sidebar-min .nav {
+  width: 50px;
+}
+.sidebar-min .sidebar-nav {
+  width: 50px;
+}
+.sidebar-min .sidebar-scroll {
+  width: 50px;
+}
+.sidebar-min-fixed .sidebar {
+  width: 50px;
+}
+.sidebar-min {
+  width: 50px;
 }
 </style>

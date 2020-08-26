@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-left:10px">
     <div>
       <RaidenHeader
         :cryptoName="cryptoName"
@@ -33,6 +33,7 @@ import RaidenHeader from "./RaidenHeader";
 
 import { _ } from "vue-underscore";
 import axios from "axios";
+import { isMobile } from "mobile-device-detect";
 
 export default {
   name: "cryptoDetails",
@@ -43,6 +44,7 @@ export default {
   },
   data() {
     return {
+      mobile: isMobile,
       mapVisibility: false,
       dashboardVisibility: true,
       price: "",
@@ -128,7 +130,7 @@ export default {
           var change24_perc =
             response.data.market_data.price_change_percentage_24h;
           var total_volume = response.data.market_data.total_volume.usd;
-
+          
           self.headerFields.price = new Intl.NumberFormat("de-DE", {
             style: "currency",
             currency: "USD",

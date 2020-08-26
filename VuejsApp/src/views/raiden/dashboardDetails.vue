@@ -1,6 +1,6 @@
 <template>
   <b-card-group row class="card-rows">
-    <b-col class="col-8">
+    <b-col :class="Boolean(mobile) ? 'col-12 p-0' : 'col-8'">
       <!-- <b-card v-show="false">
         <highcharts :options="charts.options[0]"></highcharts>
       </b-card>-->
@@ -40,7 +40,7 @@
       </b-card>
     </b-col>
 
-    <b-col class="col-4">
+    <b-col :class="Boolean(mobile) ? 'col-12 p-0' : 'col-4'">
       <b-card class>
         <b-row>
           <strong class="h2 col-2 pr-0 pl-1 text-primary">{{this.openChannel}}</strong>
@@ -54,7 +54,7 @@
 
       <b-card>
         <b-row>
-          <b-col class="col-4">
+          <b-col :class="Boolean(mobile) ? 'col-6' : 'col-4'">
             <div class="text-center">
               <span class="text-muted text-uppercase font-weight-bold font-xs">
                 Token
@@ -63,7 +63,7 @@
               <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.tokenNetwork}}</div>
             </div>
           </b-col>
-          <b-col class="col-4">
+          <b-col :class="Boolean(mobile) ? 'col-6' : 'col-4'">
             <div class="text-center">
               <span class="text-muted text-uppercase font-weight-bold font-xs">
                 Unique
@@ -72,7 +72,7 @@
               <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.uniqueAccount}}</div>
             </div>
           </b-col>
-          <b-col class="col-4">
+          <b-col :class="Boolean(mobile) ? 'col-12' : 'col-4'">
             <div class="text-center">
               <span class="text-muted text-uppercase font-weight-bold font-xs">
                 AVG Channels
@@ -113,6 +113,7 @@ import { Chart } from "highcharts-vue";
 
 import { _ } from "vue-underscore";
 import axios from "axios";
+import { isMobile } from "mobile-device-detect";
 
 export default {
   name: "dashboardDetails",
@@ -127,6 +128,7 @@ export default {
   },
   data() {
     return {
+      mobile: isMobile,
       componentKey: 0,
       sourceType: "profile",
       TimeLineKey: 0,
