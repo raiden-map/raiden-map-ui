@@ -1,11 +1,19 @@
 <template >
   <div class="row">
     <div class="col col-2" style="font-size: 20px">
-      <div style="margin-left:15px;margin-top:15px;">
+      <div class="ml-3 mt-3">
         <a :href="tokenLink" target="_blank" style="text-decoration:none; color:black;">
           <img :src="cryptoIcon" width="32" style="margin-right:10px" />
           <strong>{{cryptoName}}</strong>
         </a>
+      </div>
+      <div class="ml-3">
+        <a
+          :href="'https://www.coingecko.com/en/coins/'+coinGeckoName"
+          target="_blank"
+          style="text-decoration:none;"
+          class="font-xs text-secondary"
+        >info by CoinGecko</a>
       </div>
     </div>
 
@@ -270,6 +278,13 @@ export default {
       dashboardButtonVisibility: false,
     };
   },
+
+  computed: {
+    coinGeckoName() {
+      return this.cryptoName.toLowerCase().replace(' ', '-')
+    },
+  },
+
   props: {
     cryptoName: {
       type: String,
