@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 VuejsApp/dist.7z
+
+VuejsApp/dist.zip

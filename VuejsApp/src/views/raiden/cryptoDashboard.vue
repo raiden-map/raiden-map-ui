@@ -52,11 +52,22 @@
               >&nbsp;{{this.channelOverview.channelOpened}}</span>
             </div>
             <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Settled Channels:</span>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.channelSettled}}</span>
+            </div>
+          </b-col>
+          <b-col class="col-6">
+            <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Closed Channels:</span>
               <span
                 class="text-uppercase font-weight-bold font-xs"
               >&nbsp;{{this.channelOverview.channelClosed}}</span>
             </div>
+          </b-col>
+
+          <b-col class="col-6 mt-2">
             <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Withdraw:</span>
               <span
@@ -64,18 +75,29 @@
               >&nbsp;{{this.channelOverview.withdrawCount}}</span>
             </div>
           </b-col>
-          <b-col class="col-6">
-            <div>
-              <span class="text-muted text-uppercase font-weight-bold font-xs">Settled Channels:</span>
-              <span
-                class="text-uppercase font-weight-bold font-xs"
-              >&nbsp;{{this.channelOverview.channelSettled}}</span>
-            </div>
+          <b-col class="col-6 mt-2">
             <div>
               <span class="text-muted text-uppercase font-weight-bold font-xs">Deposit:</span>
               <span
                 class="text-uppercase font-weight-bold font-xs"
               >&nbsp;{{this.channelOverview.depositCount}}</span>
+            </div>
+          </b-col>
+
+          <b-col class="col-6">
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Withdraw Amount</span><br/>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.withdrawAmount}}</span>
+            </div>
+          </b-col>
+          <b-col class="col-6">
+            <div>
+              <span class="text-muted text-uppercase font-weight-bold font-xs">Deposit Amount</span><br/>
+              <span
+                class="text-uppercase font-weight-bold font-xs"
+              >&nbsp;{{this.channelOverview.depositAmount}}</span>
             </div>
           </b-col>
 
@@ -190,6 +212,8 @@ export default {
         channelSettled: 0,
         depositCount: 0,
         withdrawCount: 0,
+        depositAmount: 0,
+        withdrawAmount: 0,
         blockTimestamp: "",
       },
       monthNames: [
@@ -382,8 +406,10 @@ export default {
           self.channelOverview.channelOpened =
             response.data[0].channelOpened - response.data[0].channelClosed;
           self.channelOverview.channelSettled = response.data[0].channelSettled;
-          self.channelOverview.depositCount = response.data[0].channelSettled;
-          self.channelOverview.withdrawCount = response.data[0].channelSettled;
+          self.channelOverview.depositCount = response.data[0].depositCount;
+          self.channelOverview.withdrawCount = response.data[0].withdrawCount;
+          self.channelOverview.depositAmount = response.data[0].depositAmount.toFixed(8);
+          self.channelOverview.withdrawAmount = response.data[0].withdrawAmount.toFixed(8);
 
           var currentToken = JSON.parse(localStorage.getItem("currentToken"));
 

@@ -54,6 +54,29 @@
 
       <b-card>
         <b-row>
+          <b-col class="col-6">
+            <div class="text-center">
+              <span class="text-muted text-uppercase font-weight-bold font-xs">
+                Deposit
+                <br />Count
+              </span>
+              <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.depositCount}}</div>
+            </div>
+          </b-col>
+          <b-col class="col-6">
+            <div class="text-center">
+              <span class="text-muted text-uppercase font-weight-bold font-xs">
+                Withdraw
+                <br />Count
+              </span>
+              <div class="text-uppercase font-weight-bold h3">&nbsp;{{this.withdrawCount}}</div>
+            </div>
+          </b-col>
+        </b-row>
+      </b-card>
+
+      <b-card>
+        <b-row>
           <b-col :class="Boolean(mobile) ? 'col-6' : 'col-4'">
             <div class="text-center">
               <span class="text-muted text-uppercase font-weight-bold font-xs">
@@ -134,14 +157,6 @@ export default {
       TimeLineKey: 0,
       openNodesItems: nodiAperti,
       elevationData: fakeElevationData,
-      channelOverview: {
-        channelClosed: 0,
-        channelOpened: 0,
-        channelSettled: 0,
-        depositCount: 0,
-        withdrawCount: 0,
-        blockTimestamp: "",
-      },
 
       tokenNetwork: 0,
       uniqueAccount: 0,
@@ -159,6 +174,8 @@ export default {
       openChannel: 0,
       closedChannel: 0,
       settledChannel: 0,
+      depositCount: 0,
+      withdrawCount: 0,
 
       charts: {
         options: [
@@ -258,6 +275,8 @@ export default {
             response.data.channelClosed - response.data.channelSettled;
 
           self.settledChannel = response.data.channelSettled;
+          self.withdrawCount = response.data.withdrawCount;
+          self.depositCount = response.data.depositCount;
 
           var result = _.findWhere(self.charts.options[0].series[0].data, {
             name: "Open Channels",
@@ -316,10 +335,12 @@ export default {
   //watch: {  },
 
   updated: function () {
-    this.getDatiGrafico();
+    //this.getDatiGrafico();
   },
 
-  // created() {},
+  created() {
+    this.getDatiGrafico();
+  },
 };
 </script>
 
